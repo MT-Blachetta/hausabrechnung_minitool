@@ -572,6 +572,45 @@ void compute_measures() {
 
 }
 
+void hausabrechnung() {
+
+    unsigned int colsize = 13; // mindestgroesse für die Spalten der Tabelle
+    unsigned int wlen = 0;
+    int rowsize = 14;
+    string subline = "--------------|"; // colsize +1 +1
+    string row_line = "--------------|"; // rowsize +1
+
+    //first row head
+    cout << "\n              "; // OK, rowsize 
+    for (unsigned int w = 0; w < num_wohnung; w++) { printf("%*s  ",colsize,wohnung[w]); } // colsize + 2 seperation
+    cout << endl;
+
+    // Unterteilung 
+    cout << row_line;
+    for (unsigned int w = 0; w < num_wohnung; w++) { cout << subline; }
+    cout << endl;
+
+    //second row flaeche(m2)
+    cout << "Flaeche (m2)  |";// rowsize +1
+    for (unsigned int w = 0; w < num_wohnung; w++) { printf("%*.2f  |", colsize-1, quadratmeter_wohnung[w]); }
+    cout << endl;
+
+    // Unterteilung 
+    cout << row_line;
+    for (unsigned int w = 0; w < num_wohnung; w++) { cout << subline; }
+    cout << endl;
+
+
+    //third row
+    
+
+    /*for (unsigned int w = 0; w < num_wohnung; w++) {
+        wlen = wohnung[w].size();
+        if (wlen > longest) { longest = wlen; }
+    }*/
+
+}
+
 
 
 int main(int argc, char* argv[]) {
