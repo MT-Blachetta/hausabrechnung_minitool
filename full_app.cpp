@@ -621,6 +621,21 @@ void wohnungen_anzeigen() {
     cout << row_line;
     for (unsigned int w = 0; w < num_wohnung; w++) { cout << subline; }
     cout << endl;
+	
+    //fifth row, stromzaehler
+    cout << "Strom (kW/h)  |";// rowsize +1
+    for (unsigned int w = 0; w < num_wohnung; w++) { printf("%*.2f  |", colsize-1, stromzaehler[w]); }
+    cout << endl;
+	
+    //sixth row, wasserzaehler
+    cout << "Wasser (m3)   |";// rowsize +1
+    for (unsigned int w = 0; w < num_wohnung; w++) { printf("%*.2f  |", colsize-1, wasserzaehler[w]); }
+    cout << endl;
+	
+    //seventh row, heizungszaehler
+    cout << "Heizung       |"; // rowsize +1
+    for (unsigned int w = 0; w < num_wohnung; w++) { printf("%*.2f  |", colsize-1, heizungszaehler[w]); }
+    cout << endl;
 
     /*for (unsigned int w = 0; w < num_wohnung; w++) {
         wlen = wohnung[w].size();
