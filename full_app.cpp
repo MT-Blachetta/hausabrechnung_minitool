@@ -572,7 +572,9 @@ void compute_measures() {
 
 }
 
-void hausabrechnung() {
+void wohnungen_anzeigen() {
+	
+    unsigned int ID = 0;
 
     unsigned int colsize = 13; // mindestgroesse für die Spalten der Tabelle
     unsigned int wlen = 0;
@@ -589,8 +591,16 @@ void hausabrechnung() {
     cout << row_line;
     for (unsigned int w = 0; w < num_wohnung; w++) { cout << subline; }
     cout << endl;
+	
+    //second row, ID
+    cout << "ID            |";// rowsize +1
+    for (unsigned int w = 0; w < num_wohnung; w++) { 
+	    printf("%*u  |", colsize-1, ID);
+	    ID++;
+    }
+    cout << endl;
 
-    //second row flaeche(m2)
+    //third row flaeche(m2)
     cout << "Flaeche (m2)  |";// rowsize +1
     for (unsigned int w = 0; w < num_wohnung; w++) { printf("%*.2f  |", colsize-1, quadratmeter_wohnung[w]); }
     cout << endl;
@@ -601,8 +611,16 @@ void hausabrechnung() {
     cout << endl;
 
 
-    //third row
+    //fourth row, personen
+    cout << "personen      |";
+    for (unsigned int w = 0; w < num_wohnung; w++) { printf("%*u  |", colsize-1, personen_wohnung[w]); }
+    cout << endl;
     
+	
+    // Unterteilung 
+    cout << row_line;
+    for (unsigned int w = 0; w < num_wohnung; w++) { cout << subline; }
+    cout << endl;
 
     /*for (unsigned int w = 0; w < num_wohnung; w++) {
         wlen = wohnung[w].size();
