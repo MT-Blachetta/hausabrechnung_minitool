@@ -42,6 +42,7 @@ float allgemeine_stromkosten;
 
 float wohnflaeche;
 unsigned int personen_gesamt;
+float heizung_gesamt;
 
 float wasserpreis;
 float gaspreis;
@@ -536,10 +537,12 @@ void compute_measures() {
 
     wohnflaeche = 0;
     personen_gesamt = 0;
+    heizung_gesamt = 0;
 
     for (int i = 0; i < num_wohnung; i++) {
         wohnflaeche += quadratmeter_wohnung[i];
         personen_gesamt += personen_wohnung[i];
+        heizung_gesamt += heizungszaehler[i];
     }
 
     //allgemeine Stromkosten
@@ -550,6 +553,8 @@ void compute_measures() {
 
     //gaspreis
     gaspreis = gas_gesamtkosten / gas_gesamtverbrauch;
+	
+    gaseinheitspreis = gas_gesamtkosten / heizung_gesamt;
 
     //allgemeinstrom_person
     allgemeine_strom_person = allgemeine_stromkosten / personen_gesamt;
