@@ -86,7 +86,7 @@ void save_data(const string& save_path) {
         fprintf_s(sf, "sp=%.4f;wrk=%.4f;wrv=%.4f;gsk=%.4f;gsv=%.4f;asv=%.4f;grk=%.4f;mrk=%.4f;wvk=%.4f;sgk=%.4f;ark=%.4f\n", strompreis, wasser_gesamtkosten, wasser_gesamtverbrauch, gas_gesamtkosten, gas_gesamtverbrauch, allgemeiner_stromverbrauch, grundsteuer, muellabfuhrkosten, wohngebaeudeversicherung, straßenreinigung, abwasserkosten);
 
         for (unsigned int i = 0; i < num_wohnung; i++) {
-            fprintf_s(sf, "name=%s;qm=%.4f;pn=%u;wr=%.4f;st=%.4f;hz=%.4f\n", wohnung[i].c_str(), quadratmeter_wohnung[i], personen_wohnung[i], wasserzaehler[i], stromzaehler[i], heizung[i]);
+            fprintf_s(sf, "name=%s;qm=%.4f;pn=%u;wr=%.4f;st=%.4f;hz=%.4f\n", wohnung[i].c_str(), quadratmeter_wohnung[i], personen_wohnung[i], wasserzaehler[i], stromzaehler[i], heizungszaehler[i]);
         }
         
         fclose(sf);
@@ -273,7 +273,7 @@ void wohnungsdaten_abfrage() {
 	
 	heizung += hz;
 	cout << "\nNaechsten Raum hinzufuegen ? (y/n): ";
-	cin << next_room;
+	cin >> next_room;
 	
 	
 	 } while(next_room == 'y');
@@ -533,7 +533,7 @@ void load_home_data(string& dataline) {
     vnidx = search_backwards(token, '=');
     valstring = token.substr(vnidx);
     float hz = std::stof(valstring);
-    heizung.push_back(hz); // hz
+    heizungszaehler.push_back(hz); // hz
 
 }
 
