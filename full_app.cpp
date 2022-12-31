@@ -699,9 +699,18 @@ void hausabrechnung() { // -----------------------------------------------------
     for (unsigned int w = 0; w < num_wohnung; w++) { cout << subline; }
     cout << endl;
 	
+    // stromkosten
+    cout << " Stromkosten  |";// rowsize +1
+    for (unsigned int w = 0; w < num_wohnung; w++) { printf("%*.2f  |", colsize-1, stromzaehler[w]*strompreis); }
+    cout << endl;
+	
     //second row, ID
     cout << " Wasserkosten |"; // rowsize +1
     for (unsigned int i = 0; i < num_wohnung; i++) { printf("%*.2f  |", colsize-1, wasserzaehler[i]*wasserpreis); }
+    cout << endl;
+	
+    cout << " Heizungskosten      |";
+    for (unsigned int w = 0; w < num_wohnung; w++) { printf("%*.2f  |", colsize-1, heizungszaehler[w]*gaseinheitspreis); }
     cout << endl;
 	
     // Unterteilung 
@@ -721,19 +730,14 @@ void hausabrechnung() { // -----------------------------------------------------
 
 
     //fourth
-    cout << " Heizungskosten      |";
-    for (unsigned int w = 0; w < num_wohnung; w++) { printf("%*.2f  |", colsize-1, heizungszaehler[w]*gaseinheitspreis); }
-    cout << endl;
+
     	
     // Unterteilung 
     cout << row_line;
     for (unsigned int w = 0; w < num_wohnung; w++) { cout << subline; }
     cout << endl;
 	
-    //fifth
-    cout << " Stromkosten  |";// rowsize +1
-    for (unsigned int w = 0; w < num_wohnung; w++) { printf("%*.2f  |", colsize-1, stromzaehler[w]*strompreis); }
-    cout << endl;
+
 	
     // Unterteilung 
     cout << row_line;
@@ -752,7 +756,21 @@ void hausabrechnung() { // -----------------------------------------------------
 	
     //seventh
     cout << "|"; // rowsize +1
-    for (unsigned int w = 0; w < num_wohnung; w++) { printf("%*.2f  |", colsize-1, ); }
+    for (unsigned int i = 0; i < num_wohnung; i++) { printf("%*.2f  |", colsize-1, quadratmeter_wohnung[i]*wohngebaeudeversicherung_m2 ); }
+    cout << endl;
+	
+
+    cout << " Muellabfuhrkosten  |"; // rowsize +1
+    for (unsigned int w = 0; w < num_wohnung; w++) { printf("%*.2f  |", colsize-1, personen_wohnung[w]*muellabfuhrkosten_person); }
+    cout << endl;
+	
+
+    cout << " Strassenreinigung  |"; // rowsize +1
+    for (unsigned int w = 0; w < num_wohnung; w++) { printf("%*.2f  |", colsize-1, personen_wohnung[w]*straßenreinigung_person); }
+    cout << endl;
+
+    cout << " Abwasser  |"; // rowsize +1
+    for (unsigned int w = 0; w < num_wohnung; w++) { printf("%*.2f  |", colsize-1, personen_wohnung[w]*abwasserkosten_person); }
     cout << endl;
 	
     // Unterteilung 
