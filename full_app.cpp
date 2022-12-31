@@ -127,8 +127,7 @@ void input_value(float& number, const std::string& message) {
 
 
 void print_general_values() {
-
-
+	
     printf("\nWASSER\n");
     printf("Gesamtkosten: %.2f Euro\n", wasser_gesamtkosten);
     printf("Gesamtverbrauch: %.2f m3\n", wasser_gesamtverbrauch);
@@ -141,13 +140,18 @@ void print_general_values() {
     printf("allgemeiner Stromverbrauch: %.2f kWh\n", allgemeiner_stromverbrauch);
     printf("Strompreis: %.2f Euro/kWh\n", strompreis);
     printf("Allgemeine Stromkosten: %.2f Euro\n", allgemeiner_stromverbrauch * strompreis);
+    printf("Stromkosten pro Person: %.2f Euro\n", allgemeine_strom_person);
+    printf("\nWeitere Nebenkosten\n");
     printf("\nGrundsteuer (gesamt): %.2f Euro\n", grundsteuer);
+    printf("Grundsteuer pro quadratmeter: %.2f Euro/m2\n",grundsteuer_m2);
     printf("Muellabfuhr (gesamt): %.2f Euro\n", muellabfuhrkosten);
+    printf("Muellabfuhrkosten pro Person: %.2f Euro\n", muellabfuhrkosten_person);	
     printf("Wohngebaeudeversicherung (gesamt): %.2f Euro\n", wohngebaeudeversicherung);
+    printf("Wohngebaeudeversicherung pro Quadratmeter: %.2f Euro/m2\n", wohngebaeudeversicherung_m2);
     printf("Strassenreinigung (gesamt): %.2f Euro\n", straßenreinigung);
+    printf("Strassenreinigung pro Person: %.2f Euro\n",straßenreinigung_person);	
     printf("Abwasserkosten (gesamt): %.2f Euro\n", abwasserkosten);
-
-
+    printf("Abwasserkosten pro Person: %.2f Euro\n", abwasserkosten_person);
 
 }
 
