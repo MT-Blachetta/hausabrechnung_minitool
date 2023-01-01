@@ -294,73 +294,6 @@ void wohnungsdaten_abfrage() {
 	
 }
 
-bool main_dialog() {
-
-    char option;
-    cout << "\nWaehlen Sie eine der folgenden Optionen aus:\n";
-    cout << "a: Neue Wohnung anlegen\n";
-    cout << "b: Eingaben und Daten speichern\n";
-    cout << "c: HAUSABRECHNUNG durchfueren und anzeigen\n";
-    cout << "d: gespeicherte Kennzahlen anzeigen\n";
-    cout << "e: gespeicherte Wohnungsdaten anzeigen\n";
-    cout << "f: neue Kennzahlen eingeben\n";
-    cout << "g: Einzelne Kennzahl aendern\n";
-    cout << "h: Wohnungsdaten loeschen\n";
-    cout << "i: Daten einzelner Wohnung aendern\n";
-    cout << "j: ENDE\n";
-    cin >> option;
-
-    switch (option) {
-    case 'a':
-	cout << "\nNEUE WOHNUNG ANLEGEN , Daten werden abgefragt... " << endl;
-        wohnungsdaten_abfrage();
-        return true;
-        //break;
-    case 'b':
-        cout << "\nSpeichere Eingabedaten in Datei..." << endl;
-        save_data("abrechnungsdaten.sav");
-        return true;
-        //break;
-    case 'c':
-        // prüfe erst ob personen und wohnungen existieren !
-        hausabrechnung();
-        return true;
-        //break;
-    case 'd':
-        // option d
-        return true;
-        //break;
-    case 'e':
-        // option e
-        return true;
-        //break;
-    case 'f':
-        // option c
-        return true;
-        //break;
-    case 'g':
-        // option g
-        return true;
-        //break;
-    case 'h':
-        // option h
-        return true;
-        //break;
-    case 'i':
-        // option i
-        return true;
-        //break;
-    case 'j':
-        // ENDE
-        return false;
-    default:
-        cout << "FEHLER, bitte geben Sie einen Buchstaben ein, der fuer eine gueltige Option steht !"; //<< endl;
-        return true;
-        //break;
-
-    }
-
-}
 
 int search_backwards(string target, char seperator) {
 
@@ -778,6 +711,74 @@ void hausabrechnung() {
         wlen = wohnung[w].size();
         if (wlen > longest) { longest = wlen; }
     }*/
+
+}
+
+bool main_dialog() {
+
+    char option;
+    cout << "\nWaehlen Sie eine der folgenden Optionen aus:\n";
+    cout << "a: Neue Wohnung anlegen\n";
+    cout << "b: Eingaben und Daten speichern\n";
+    cout << "c: HAUSABRECHNUNG durchfueren und anzeigen\n";
+    cout << "d: gespeicherte Kennzahlen anzeigen\n";
+    cout << "e: gespeicherte Wohnungsdaten anzeigen\n";
+    cout << "f: neue Kennzahlen eingeben\n";
+    cout << "g: Einzelne Kennzahl aendern\n";
+    cout << "h: Wohnungsdaten loeschen\n";
+    cout << "i: Daten einzelner Wohnung aendern\n";
+    cout << "j: ENDE\n";
+    cin >> option;
+
+    switch (option) {
+    case 'a':
+	cout << "\nNEUE WOHNUNG ANLEGEN , Daten werden abgefragt... " << endl;
+        wohnungsdaten_abfrage();
+        return true;
+        //break;
+    case 'b':
+        cout << "\nSpeichere Eingabedaten in Datei..." << endl;
+        save_data("abrechnungsdaten.sav");
+        return true;
+        //break;
+    case 'c':
+        // prüfe erst ob personen und wohnungen existieren !
+        hausabrechnung();
+        return true;
+        //break;
+    case 'd':
+        // option d
+        return true;
+        //break;
+    case 'e':
+        // option e
+        return true;
+        //break;
+    case 'f':
+        // option c
+        return true;
+        //break;
+    case 'g':
+        // option g
+        return true;
+        //break;
+    case 'h':
+        // option h
+        return true;
+        //break;
+    case 'i':
+        // option i
+        return true;
+        //break;
+    case 'j':
+        // ENDE
+        return false;
+    default:
+        cout << "FEHLER, bitte geben Sie einen Buchstaben ein, der fuer eine gueltige Option steht !"; //<< endl;
+        return true;
+        //break;
+
+    }
 
 }
 
