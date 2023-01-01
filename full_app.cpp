@@ -109,7 +109,7 @@ void input_value(float& number, const std::string& message) {
                char confirm = 'y';        
                do{
                    number = std::stof(eingabe);
-                   cout << "Eingabe = " << number << " / bestaetigen 'y', aendern 'n'): ";
+                   cout << "Eingabe = " << number << " / bestaetigen 'y', aendern 'n': ";
                    cin >> confirm;
                  }
                while(confirm == 'n');
@@ -204,7 +204,7 @@ void wohnungsdaten_abfrage() {
         do{
 	     cout << "Geben Sie den Namen der Wohnung ein: ";
 	     cin >> wohnungsname;
-             cout << "\nEingabe = " << wohnungsname << " / bestaetigen 'y', aendern 'n'): ";
+             cout << "\nEingabe = " << wohnungsname << " / bestaetigen 'y', aendern 'n': ";
              cin >> confirm;
              cout << endl;
           } while(confirm == 'n');
@@ -220,7 +220,7 @@ void wohnungsdaten_abfrage() {
         	cout << "Wie viele Personen wohnen im Raum ? (einfache Zahl): ";
         	cin >> person_str;
         	personen = std::stoul(person_str);
-        	cout << "\nEingabe = " << personen << " / bestaetigen 'y', aendern 'n'): ";
+        	cout << "\nEingabe = " << personen << " / bestaetigen 'y', aendern 'n': ";
         	cin >> confirm;
         	cout << endl;
         	} while(confirm == 'n');            
