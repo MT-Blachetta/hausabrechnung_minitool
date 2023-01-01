@@ -311,7 +311,7 @@ bool main_dialog() {
     cin >> option;
 
     switch (option) {
-    case 'a'
+    case 'a':
 	cout << "\nNEUE WOHNUNG ANLEGEN , Daten werden abgefragt... " << endl;
         wohnungsdaten_abfrage();
         return true;
