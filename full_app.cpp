@@ -94,7 +94,6 @@ void save_data(const string& save_path) {
 
 }
 
-
 void input_value(float& number, const std::string& message) {
 
     bool check = true;
@@ -406,7 +405,6 @@ vector<string> splitString(string str, char delimiter)
     return stringList;
 }
 
-
 void load_main_data(string& dataline) {
 
     vector<string> kennzahlen = splitString(dataline, ';');
@@ -492,7 +490,6 @@ void load_main_data(string& dataline) {
 
     }
 
-
 void load_home_data(string& dataline) {
 
     //add an apartment
@@ -539,7 +536,6 @@ void load_home_data(string& dataline) {
     heizungszaehler.push_back(hz); // hz
 
 }
-
 
 void compute_measures() {
 
@@ -672,8 +668,6 @@ void wohnungen_anzeigen() {
 
 }
 
-
-
 void hausabrechnung() { 
 
     unsigned int colsize = 13; // mindestgroesse für die Spalten der Tabelle
@@ -685,7 +679,7 @@ void hausabrechnung() {
 
     //first row head
     cout << "\n                           "; // OK, rowsize 
-    for (unsigned int w = 0; w < num_wohnung; w++) { printf("%*s  ",colsize,wohnung[w]); } // colsize + 2 seperation
+    for (unsigned int w = 0; w < num_wohnung; w++) { printf("%*s  ",colsize,wohnung[w].c_str()); } // colsize + 2 seperation
     cout << endl;
 
     // Unterteilung 
