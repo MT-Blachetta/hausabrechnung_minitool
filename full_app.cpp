@@ -304,24 +304,27 @@ bool main_dialog() {
     cout << "c: HAUSABRECHNUNG durchfueren und anzeigen\n";
     cout << "d: gespeicherte Kennzahlen anzeigen\n";
     cout << "e: gespeicherte Wohnungsdaten anzeigen\n";
-    cout << "f: Kennzahlen komplett neu eingeben\n";
+    cout << "f: neue Kennzahlen eingeben\n";
     cout << "g: Einzelne Kennzahl aendern\n";
     cout << "h: Wohnungsdaten loeschen\n";
-    cout << "i: Daten ausgewaehlter Wohnung aendern\n";
+    cout << "i: Daten einzelner Wohnung aendern\n";
     cout << "j: ENDE\n";
     cin >> option;
 
     switch (option) {
-    case 'a':
-        cout << "You entered the letter a." << endl;
+    case 'a'
+	cout << "\nNEUE WOHNUNG ANLEGEN , Daten werden abgefragt... " << endl;
+        wohnungsdaten_abfrage();
         return true;
         //break;
     case 'b':
-        cout << "You entered the letter b." << endl;
+        cout << "\nSpeichere Eingabedaten in Datei..." << endl;
+        save_data("abrechnungsdaten.sav");
         return true;
         //break;
     case 'c':
-        // option c
+        // prüfe erst ob personen und wohnungen existieren !
+        hausabrechnung();
         return true;
         //break;
     case 'd':
