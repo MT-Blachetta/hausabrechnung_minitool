@@ -93,7 +93,6 @@ void save_data(const string& save_path) {
     }
 
 }
-
 void input_value(float& number, const std::string& message) {
 
     bool check = true;
@@ -101,25 +100,26 @@ void input_value(float& number, const std::string& message) {
 
     while (check) {
 
-       //eingabe = "";
-       std::cout << message;
-       std::cin >> eingabe;
+        //eingabe = "";
 
-       try {        
-               char confirm = 'y';        
-               do{
-                   number = std::stof(eingabe);
-                   cout << "Eingabe = " << number << " / bestaetigen 'y', aendern 'n': ";
-                   cin >> confirm;
-                 }
-               while(confirm == 'n');
-               check = false;
-               
-           }  catch (const std::invalid_argument& e) {
-                 std::cout << "Die Eingegebene Zeichenfolge ist keine gueltige Zahl ! Sie muessen den Wert nochmal korrekt angeben:\n";
-                 continue; }
-        
-                   }
+        try {
+            char confirm = 'y';
+            do {
+                cout << message;
+                cin >> eingabe;
+                number = std::stof(eingabe);
+                cout << "Eingabe: " << number << " | bestaetigen 'y', aendern 'n': ";
+                cin >> confirm;
+            } while (confirm == 'n');
+            check = false;
+
+        }
+        catch (const std::invalid_argument& e) {
+            std::cout << "Die Eingegebene Zeichenfolge ist keine gueltige Zahl ! Sie muessen den Wert nochmal korrekt angeben:\n";
+            continue;
+        }
+
+    }
 
     return;
 
@@ -179,7 +179,7 @@ void kennzahl_abfrage() {
     input_value(allgemeiner_stromverbrauch, "Wie hoch ist der allgemeine Stromverbrauch des Hauses in Kw/h (Beispiel: 25 oder 20.5): ");
     cout << "allgemeiner Stromverbrauch in kW/h = " << allgemeiner_stromverbrauch << "\n";
 
-    input_value(grundsteuer, "Wie hoch sind die Grundsteuer fuer das ganze Haus (Grundstück) in Euro (Beispiel 39.99): ");
+    input_value(grundsteuer, "Wie hoch sind die Grundsteuer fuer das ganze Haus (Grundstueck) in Euro (Beispiel 39.99): ");
     cout << "Grundsteuer in Euro = " << grundsteuer << "\n";
 
     input_value(muellabfuhrkosten, "Geben Sie die Gesamtkosten fuer die Muellabfuhr in Euro an (Beispiel 39.99): ");
@@ -199,99 +199,105 @@ void kennzahl_abfrage() {
 
 void wohnungsdaten_abfrage() {
 
-	string wohnungsname;
-        char confirm = 'y';        
-        do{
-	     cout << "Geben Sie den Namen der Wohnung ein: ";
-	     cin >> wohnungsname;
-             cout << "\nEingabe = " << wohnungsname << " / bestaetigen 'y', aendern 'n': ";
-             cin >> confirm;
-             cout << endl;
-          } while(confirm == 'n');
-		
-	bool check = true;
-	string person_str;
-	unsigned int personen;
-        while (check) {
-        
+    string wohnungsname;
+    char confirm = 'y';
+    do {
+        cout << "Geben Sie den Namen der Wohnung ein: ";
+        cin >> wohnungsname;
+        cout << "Eingabe: " << wohnungsname << " | bestaetigen 'y', aendern 'n': ";
+        cin >> confirm;
+        cout << endl;
+    } while (confirm == 'n');
+
+    bool check = true;
+    string person_str;
+    unsigned int personen;
+    while (check) {
+
         try {
-                char confirm = 'y';        
-        	do{
-        	cout << "Wie viele Personen wohnen im Raum ? (einfache Zahl): ";
-        	cin >> person_str;
-        	personen = std::stoul(person_str);
-        	cout << "\nEingabe = " << personen << " / bestaetigen 'y', aendern 'n': ";
-        	cin >> confirm;
-        	cout << endl;
-        	} while(confirm == 'n');            
-            	check = false;            
-           }
+            char confirm = 'y';
+            do {
+                cout << "Wie viele Personen wohnen im Raum ? (einfache Zahl): ";
+                cin >> person_str;
+                personen = std::stoul(person_str);
+                cout << "Eingabe: " << personen << " | bestaetigen 'y', aendern 'n': ";
+                cin >> confirm;
+                cout << endl;
+            } while (confirm == 'n');
+            check = false;
+        }
         catch (const std::invalid_argument& e) {
             std::cout << "Die Eingegebene Zeichenfolge ist keine gueltige Zahl ! Sie muessen den Wert nochmal korrekt angeben:\n";
             continue;
-                                               }
-                       }
-	
-	float quadratmeter;
-	input_value(quadratmeter,"Geben Sie die Flaeche der Wohnung in m2 an: ");
-	
-	
-    	float wasserverbrauch;
-	input_value(wasserverbrauch,"Geben Sie den Stand des Wasserzaehlers in m3 ein: ");
-	
-	float stromverbrauch;
-	input_value(stromverbrauch,"Geben Sie den Stand des Stromzaehlers in kW/h ein: ");
+        }
+    }
 
-	
-	float heizung = 0;
-	cout << "Als naechstes legen sie die Raeume der Wohnung an und geben den Zaehlerstand fuer jede Heizung ein.\n";
-	char next_room = 'n';
-	
-	do {
-	string raumname;
-	cout << "Raum (Name): ";
-	cin >> raumname;
-	
-	float tmp;
-	float hz = 0;
-	input_value(tmp,"\nZaehlerstand Heizung: ");
+    float quadratmeter;
+    input_value(quadratmeter, "Geben Sie die Flaeche der Wohnung in m2 an: ");
+    cout << endl;
+
+    float wasserverbrauch;
+    input_value(wasserverbrauch, "Geben Sie den Stand des Wasserzaehlers in m3 ein: ");
+    cout << endl;
+
+    float stromverbrauch;
+    input_value(stromverbrauch, "Geben Sie den Stand des Stromzaehlers in kW/h ein: ");
+    cout << endl;
+
+
+    float heizung = 0;
+    cout << "Als naechstes legen sie die Raeume der Wohnung an und geben den Zaehlerstand fuer jede Heizung ein.\n";
+    char next_room = 'n';
+
+    do {
+        string raumname;
+        cout << "Raum (Name): ";
+        cin >> raumname;
+
+        cout << "Geben Sie den Stand der ersten (oder einzigen) Heizung an, weitere Heizungen koennen hinzugefuegt werden";
+        float tmp;
+        float hz = 0;
+        input_value(tmp, "\nZaehlerstand der Heizung: ");
         hz += tmp;
-	cout << "Zaehlerstand " << raumname << ": " << hz << endl;
-	
-	char next = 'n';
-	cout << "\nWeiteren Heizung Zaehler angeben ? (y/n): ";
-	cin >> next;
-	
-	while(next == 'y'){ 
-	input_value(tmp,"\nZaehlerstand Heizung: ");
-	hz += tmp;
-	cout << "Zaehlerstand " << raumname << ": " << hz << endl;
-	
-	cout << "\nWeiteren Heizung Zaehler angeben ? (y/n): ";
-	cin >> next; }
-	
-	heizung += hz;
-	cout << "\nNaechsten Raum hinzufuegen ? (y/n): ";
-	cin >> next_room;
-	
-	
-	 } while(next_room == 'y');
-	 
-	 cout << "\nWohnung hinzugefuegt -->" << endl;
-	 cout << "Name: " << wohnungsname << endl;
-	 cout << "Flaeche: " << quadratmeter << endl;
-	 cout << "Bewohnerzahl: " << personen << endl;
-	 cout << "Strom: " << stromverbrauch << endl;
-	 cout << "Wasser: " << wasserverbrauch << endl;
-	 cout << "Heizung(Gas): " << heizung << endl;
-	 
-	 wohnung.push_back(wohnungsname);
-	 quadratmeter_wohnung.push_back(quadratmeter);
-	 personen_wohnung.push_back(personen);
-	 wasserzaehler.push_back(wasserverbrauch);
-	 stromzaehler.push_back(stromverbrauch);
-	 heizungszaehler.push_back(heizung);
-	
+        cout << "Heizung (Gesamteinheiten) von " << raumname << ": " << hz << endl;
+
+        char next = 'n';
+        cout << "Weiteren Heizung Zaehler angeben ? (y/n): ";
+        cin >> next;
+
+        while (next == 'y') {
+            input_value(tmp, "\nZaehlerstand der Heizung: ");
+            hz += tmp;
+            cout << "Heizung (Gesamteinheiten) von " << raumname << ": " << hz << endl;
+
+            cout << "Weitere Heizung angeben ? (y/n): ";
+            cin >> next;
+        }
+
+        heizung += hz;
+        cout << "\nNaechsten Raum hinzufuegen ? (y/n): ";
+        cin >> next_room;
+
+
+    } while (next_room == 'y');
+
+    cout << "\nWohnung hinzugefuegt -->" << endl;
+    cout << "Name: " << wohnungsname << endl;
+    cout << "Flaeche: " << quadratmeter << endl;
+    cout << "Bewohnerzahl: " << personen << endl;
+    cout << "Strom: " << stromverbrauch << endl;
+    cout << "Wasser: " << wasserverbrauch << endl;
+    cout << "Heizung(Gas): " << heizung << endl;
+
+    wohnung.push_back(wohnungsname);
+    quadratmeter_wohnung.push_back(quadratmeter);
+    personen_wohnung.push_back(personen);
+    wasserzaehler.push_back(wasserverbrauch);
+    stromzaehler.push_back(stromverbrauch);
+    heizungszaehler.push_back(heizung);
+
+    num_wohnung++;
+
 }
 
 
