@@ -476,6 +476,63 @@ void load_home_data(string& dataline) {
 
 }
 
+void change_single_value(char val_ID){
+    
+  switch (val_ID) {
+    case 'a':
+        input_value(wasser_gesamtkosten, "Wie lauten die Gesamtkosten fuer den Wasserverbrauch des gesamten Hauses in Euro (Beispiel: 189.99): ");
+        cout << "Wasser (Gesamtkosten) in Euro = " << wasser_gesamtkosten << "\n";
+	return;
+    case 'b':
+	input_value(wasser_gesamtverbrauch, "Wie hoch ist der Gesamtverbrauch fuer Wasser des gesamten Hauses in Kubikmeter m3 (Beispiel: 40 oder 40.5): ");
+        cout << "Wasser (Gesamtverbrauch) in m3 = " << wasser_gesamtverbrauch << "\n";
+        return;
+    case 'c':
+        input_value(gas_gesamtkosten, "Wie hoch sind die Gesamtkosten fuer Gas des gesamten Hauses in Euro (Beispiel 279.80): ");
+        cout << "Gas (Gesamtkosten) in Euro = " << gas_gesamtkosten << "\n";		    
+        return;
+    case 'd':
+	input_value(gas_gesamtverbrauch, "Wie hoch ist der gesamte Gasverbrauch des Hauses in m3 (Kubikmeter), (Beispiel: 40 oder 40.5): ");
+        cout << "Gas (Gesamtverbrauch) in m3 = " << gas_gesamtverbrauch << "\n";
+	return;
+    case 'e':
+        input_value(strompreis, "Wie hoch sind die aktuellen Stromkosten pro kW/h in Euro (Beispiel 6.99): ");
+        cout << "Strompreis pro kW/h in Euro = " << strompreis << "\n";    
+	return;
+    case 'f':
+        input_value(allgemeiner_stromverbrauch, "Wie hoch ist der allgemeine Stromverbrauch des Hauses in Kw/h (Beispiel: 25 oder 20.5): ");
+        cout << "allgemeiner Stromverbrauch in kW/h = " << allgemeiner_stromverbrauch << "\n";
+	return;
+    case 'g':
+        input_value(grundsteuer, "Wie hoch sind die Grundsteuer fuer das ganze Haus (Grundstück) in Euro (Beispiel 39.99): ");
+        cout << "Grundsteuer in Euro = " << grundsteuer << "\n";
+	return;
+    case 'h':
+        input_value(muellabfuhrkosten, "Geben Sie die Gesamtkosten fuer die Muellabfuhr in Euro an (Beispiel 39.99): ");
+        cout << "Muellabfuhrkosten in Euro = " << muellabfuhrkosten << "\n";
+	return;
+    case 'i':
+	input_value(wohngebaeudeversicherung, "Geben Sie die Gesamtkosten fuer die Wohngebaeudeversicherung in Euro an (Beispiel 39.99): ");
+        cout << "Wohngebaeudeversicherung in Euro = " << wohngebaeudeversicherung << "\n";
+	return;
+    case 'j':
+	input_value(straßenreinigung, "Geben Sie die Gesamtkosten fuer die Strassenreinigung in Euro an (Beispiel 39.99): ");
+        cout << "Strassenreinigung in Euro = " << straßenreinigung << "\n";
+	return;
+    case 'k':
+        input_value(abwasserkosten, "Geben Sie die Gesamtkosten fuer Abwasser in Euro an (Beispiel 39.99): ");
+        cout << "Abwasserkosten in Euro = " << abwasserkosten << "\n";
+        return;
+    case 'l':
+	return;		  
+    default:
+	cout << "Ungueltige Eingabe --> Abbruch, bitte geben sie naechstes mal einen Buchstaben zwischen a-l an." << endl;
+	return;
+    
+    }
+
+}
+
 void compute_measures() {
 
     wohnflaeche = 0;
@@ -487,6 +544,9 @@ void compute_measures() {
         personen_gesamt += personen_wohnung[i];
         heizung_gesamt += heizungszaehler[i];
     }
+	
+    	
+   
 
     //allgemeine Stromkosten
     allgemeine_stromkosten = allgemeiner_stromverbrauch * strompreis;
