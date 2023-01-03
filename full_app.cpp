@@ -854,9 +854,11 @@ int main(int argc, char* argv[]) {
 
     num_wohnung = 0;
 
-    cout << "\nWillkommen beim Programm fuer Ihre Hausabrechnung -\n pruefe Datenbasis...";
+    cout << "\nWillkommen beim Programm fuer Ihre Hausabrechnung -\nSuche nach gespeicherten Daten..." << endl;
 
-    /* string loadpath = argv[0];
+    /* //überflüssig 
+    
+    string loadpath = argv[0];
 
     unsigned int sep_position = 0;
     for (int i = loadpath.length() - 1; i > 1; i--) {
@@ -879,22 +881,21 @@ int main(int argc, char* argv[]) {
         cout << "Speicherdatei vorhanden, wird geladen..." << endl;
         if (getline(ifile, first_line)) {
             if (checkStringA(first_line)) { 
-                
                 load_main_data(first_line);
                 string line;
                 while (getline(ifile, line)) {
                     if (checkStringB(line)) { load_home_data(line); }
                     else { cout << "FEHLER beim Lesen der Wohnungsdaten, eine Wohnung wird nicht hinzugefuegt"; }
-                }           
+                                             }           
             
-            }
-            else { cout << "FEHLER: Die Speicherdatei ist nicht korrekt formatiert, beschaedigt oder manipuliert.\nAlle Daten muessen leider erneut eingegeben werden"; }
-        }
+                                           }
+            else { cout << "FEHLER: Die Speicherdatei ist nicht korrekt formatiert, beschaedigt oder manipuliert.\nAlle Daten muessen leider erneut eingegeben werden" << endl; }
+                                         }
         else { cout << "FEHLER: Die Speicherdatei ist nicht korrekt formatiert, beschaedigt oder manipuliert.\nAlle Daten muessen leider erneut eingegeben werden"; }
 
         ifile.close();
 
-    }
+                }
 
     else {
 
@@ -903,7 +904,7 @@ int main(int argc, char* argv[]) {
         kennzahl_abfrage();
         print_general_values();
         cout << "Fuegen sie als naechstes mit der zugehörigen Option Wohnungen mit Raeumen hinzu !";
-
+//----------------------------------------------------
     }
 
 
