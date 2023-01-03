@@ -880,18 +880,28 @@ int main(int argc, char* argv[]) {
         string first_line;
         cout << "Speicherdatei vorhanden, wird geladen..." << endl;
         if (getline(ifile, first_line)) {
-            if (checkStringA(first_line)) { 
+            if (checkStringA(first_line))   { 
                 load_main_data(first_line);
                 string line;
-                while (getline(ifile, line)) {
+                while (getline(ifile, line))     {
                     if (checkStringB(line)) { load_home_data(line); }
                     else { cout << "FEHLER beim Lesen der Wohnungsdaten, eine Wohnung wird nicht hinzugefuegt"; }
-                                             }           
+                                                 }           
             
-                                           }
-            else { cout << "FEHLER: Die Speicherdatei ist nicht korrekt formatiert, beschaedigt oder manipuliert.\nAlle Daten muessen leider erneut eingegeben werden" << endl; }
+                                            }
+            else { cout << "FEHLER: Die Speicherdatei ist nicht korrekt formatiert, beschaedigt oder manipuliert.\nAlle Daten muessen leider erneut eingegeben werden" << endl;
+	           kennzahl_abfrage();
+                   print_general_values();
+	           cout << "Als naechstes muessen sie mindestens eine Wohnung anlegen, bitte geben Sie die gewuenschten Daten ein >>" << endl;
+                   cout << "Fuegen sie als naechstes mit der zugehörigen Option weitere Wohnungen hinzu !" << endl;		 
+		 }
                                          }
-        else { cout << "FEHLER: Die Speicherdatei ist nicht korrekt formatiert, beschaedigt oder manipuliert.\nAlle Daten muessen leider erneut eingegeben werden"; }
+        else { cout << "FEHLER: Die Speicherdatei ist nicht korrekt formatiert, beschaedigt oder manipuliert.\nAlle Daten muessen leider erneut eingegeben werden" << endl;
+	       kennzahl_abfrage();
+               print_general_values();
+	       cout << "Als naechstes muessen sie mindestens eine Wohnung anlegen, bitte geben Sie die gewuenschten Daten ein >>" << endl;
+               cout << "Fuegen sie als naechstes mit der zugehörigen Option weitere Wohnungen hinzu !" << endl;
+	     }
 
         ifile.close();
 
@@ -903,7 +913,8 @@ int main(int argc, char* argv[]) {
         cout << "Speicherdatei nicht gefunden, Start... \n";
         kennzahl_abfrage();
         print_general_values();
-        cout << "Fuegen sie als naechstes mit der zugehörigen Option Wohnungen mit Raeumen hinzu !";
+	cout << "Als naechstes muessen sie mindestens eine Wohnung anlegen, bitte geben Sie die gewuenschten Daten ein >>"
+        cout << "Fuegen sie als naechstes mit der zugehörigen Option weitere Wohnungen hinzu !";
 //----------------------------------------------------
     }
 
