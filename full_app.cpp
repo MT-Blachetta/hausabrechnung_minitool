@@ -544,6 +544,19 @@ bool compute_measures() {
         personen_gesamt += personen_wohnung[i];
         heizung_gesamt += heizungszaehler[i];
     }
+	
+    if(wohnflaeche < 1) {
+        cout << "FEHLER: Die Aktion kann nicht durchgefuehrt werden\nSie haben falsche Angben zur Flaeche der Wohnungen in m2 gemacht. Diese müssen zusammen mindestens = 1 ergeben !" << endl;
+        cout << "Loeschen Sie alle Wohnungen und legen Sie alles neu an oder bearbeiten Sie eine bestimmte Wohnung um die Flaeche zu aendern." << endl;
+	return false;
+	    }
+	
+    if(personen_gesamt < 1) {
+        cout << "FEHLER: Die Aktion kann nicht durchgefuehrt werden\nSie haben keiner Wohnung Personen hinzugefuegt. Loeschen Sie alle Wohnungen und legen Sie alles neu an oder bearbeiten Sie eine bestimmte Wohnung um eine Personenzahl von mindestens 1 anzugeben" << endl;
+	return false;    
+    }
+	
+    if(heizung_gesamt) { }
 
 
     //allgemeine Stromkosten
