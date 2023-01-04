@@ -533,7 +533,7 @@ void change_single_value(char val_ID){
 
 }
 
-void compute_measures() {
+bool compute_measures() {
 
     wohnflaeche = 0;
     personen_gesamt = 0;
@@ -574,6 +574,8 @@ void compute_measures() {
 
     //abwasserkosten_person
     abwasserkosten_person = abwasserkosten / personen_gesamt;
+	
+    return true;
 
 
 }
