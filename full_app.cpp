@@ -544,9 +544,7 @@ void compute_measures() {
         personen_gesamt += personen_wohnung[i];
         heizung_gesamt += heizungszaehler[i];
     }
-	
-    	
-   
+
 
     //allgemeine Stromkosten
     allgemeine_stromkosten = allgemeiner_stromverbrauch * strompreis;
@@ -852,7 +850,7 @@ bool main_dialog() {
 
 int main(int argc, char* argv[]) {
 
-    num_wohnung = 0;
+    //num_wohnung = 0;
 
     cout << "\nWillkommen beim Programm fuer Ihre Hausabrechnung -\nSuche nach gespeicherten Daten..." << endl;
 
@@ -882,6 +880,7 @@ int main(int argc, char* argv[]) {
         if (getline(ifile, first_line)) {
             if (checkStringA(first_line))   { 
                 load_main_data(first_line);
+		    
                 string line;
                 while (getline(ifile, line))     {
                     if (checkStringB(line)) { load_home_data(line); }
@@ -893,14 +892,16 @@ int main(int argc, char* argv[]) {
 	           kennzahl_abfrage();
                    print_general_values();
 	           cout << "Als naechstes muessen sie mindestens eine Wohnung anlegen, bitte geben Sie die gewuenschten Daten ein >>" << endl;
-                   cout << "Fuegen sie als naechstes mit der zugehörigen Option weitere Wohnungen hinzu !" << endl;		 
+		   wohnungsdaten_abfrage();
+                   cout << "Fuegen sie als naechstes mit der jeweiligen Option weitere Wohnungen hinzu !" << endl;		 
 		 }
                                          }
         else { cout << "FEHLER: Die Speicherdatei ist nicht korrekt formatiert, beschaedigt oder manipuliert.\nAlle Daten muessen leider erneut eingegeben werden" << endl;
 	       kennzahl_abfrage();
                print_general_values();
 	       cout << "Als naechstes muessen sie mindestens eine Wohnung anlegen, bitte geben Sie die gewuenschten Daten ein >>" << endl;
-               cout << "Fuegen sie als naechstes mit der zugehörigen Option weitere Wohnungen hinzu !" << endl;
+	       wohnungsdaten_abfrage();
+               cout << "Fuegen sie als naechstes mit der jeweiligen Option weitere Wohnungen hinzu !" << endl;
 	     }
 
         ifile.close();
@@ -909,16 +910,18 @@ int main(int argc, char* argv[]) {
 
     else {
 
-        ifile.close();
-        cout << "Speicherdatei nicht gefunden, Start... \n";
+        
+        cout << "Speicherdatei nicht gefunden oder umbennant, Start mit Abfrage der Abrechnungsdaten... \n";
         kennzahl_abfrage();
         print_general_values();
-	cout << "Als naechstes muessen sie mindestens eine Wohnung anlegen, bitte geben Sie die gewuenschten Daten ein >>"
-        cout << "Fuegen sie als naechstes mit der zugehörigen Option weitere Wohnungen hinzu !";
-//----------------------------------------------------
-    }
+	cout << "Als naechstes muessen sie mindestens eine Wohnung anlegen, bitte geben Sie die gewuenschten Daten ein >>" << endl;
+	wohnungsdaten_abfrage();
+        cout << "Fuegen sie als naechstes mit der jeweiligen Option weitere Wohnungen hinzu !";
 
+       }
 
+    ifile.close();
+	
     bool status = true;
     while (status) { status = main_dialog(); }
 
