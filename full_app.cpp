@@ -1026,13 +1026,12 @@ bool main_dialog() {
         unsigned int ID;
         string ID_str;        
         try{
-        cout << "\nGeben Sie die jeweilige ID der Wohnung ein, dessen Werte veraendert werden sollen: "
+        cout << "\nGeben Sie die jeweilige ID der Wohnung ein, dessen Werte veraendert werden sollen: ";
         cin >> ID_str;
         ID = std::stoul(ID_str); 
-        
+        wohnung_aendern(ID);
         }
         catch (const std::invalid_argument& e) { cout << "Der eingegebene Wert ist keine gueltige ID als ganze Zahl. Fuehren Sie die Aktion mit korrekter Eingabe erneut durch !" << endl; }
-        wohnung_aendern(ID);
         return true;
 
     case 'j':
@@ -1099,7 +1098,7 @@ int main(int argc, char* argv[]) {
                   wohnungsdaten_abfrage(); 
                   cout << "WEITERE WOHNUNG EINGEBN ? (y/n): "; 
                   cin >> nxt;
-                 } while (nxt == 'y')
+                 } while (nxt == 'y');
 
 		 }
                                          }
@@ -1112,7 +1111,7 @@ int main(int argc, char* argv[]) {
                   wohnungsdaten_abfrage(); 
                   cout << "WEITERE WOHNUNG EINGEBN ? (y/n): "; 
                   cin >> nxt;
-                 } while (nxt == 'y')
+                 } while (nxt == 'y');
 	     }
 
         ifile.close();
@@ -1130,7 +1129,7 @@ int main(int argc, char* argv[]) {
                   wohnungsdaten_abfrage(); 
                   cout << "WEITERE WOHNUNG EINGEBN ? (y/n): "; 
                   cin >> nxt;
-                 } while (nxt == 'y')
+                 } while (nxt == 'y');
 
         }
 
