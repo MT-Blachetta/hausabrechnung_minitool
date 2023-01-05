@@ -1,3 +1,4 @@
+
 #include<string>
 #include<vector>
 #include<sstream>
@@ -6,19 +7,19 @@
 #include<stdio.h>
 #include<sys/stat.h>
 #include<fstream>
-#include<filesystem>
+//#include<filesystem>
 
 using namespace std;
 
 string savepath;
 
-unsigned int num_wohnung;
-vector<string> wohnung; // name
-vector<float> quadratmeter_wohnung; // qm
-vector<unsigned int> personen_wohnung; // pn
-vector<float> wasserzaehler; // wr
-vector<float> stromzaehler; // st
-vector<float> heizungszaehler; // bilde Summe aus Heizungszaelerwerten
+unsigned int num_wohnung = 0;
+vector<string> wohnung = {}; // name
+vector<float> quadratmeter_wohnung = {}; // qm
+vector<unsigned int> personen_wohnung = {}; // pn
+vector<float> wasserzaehler = {}; // wr
+vector<float> stromzaehler = {}; // st
+vector<float> heizungszaehler = {}; // bilde Summe aus Heizungszaelerwerten
 
 //kein Heizungsverbrauch nach Raum
 //vector<unsigned int> wohnung_num_raum; // rn
@@ -75,21 +76,20 @@ bool checkStringB(const std::string& str) {
 void save_data(const string& save_path) {
 
     FILE* sf;
-    errno_t err;
+    errno_t ecode = fopen_s(&sf, save_path.c_str(), "w");
 
-    if ((err = fopen_s(&sf, save_path.c_str(), "w")) != 0) {
-        fprintf_s(stderr, "Datei kann nicht geoeffnet werden ('%s'): %s\n", save_path.c_str(), "fatal error !");
-    }
-    else {  // Datei wurde geoeffnet, sf wird genutzt um in die Datei zu schreiben
+    if (ecode == 0) { // Datei wurde geoeffnet, sf wird genutzt um in die Datei zu schreiben
 
         fprintf_s(sf, "sp=%.4f;wrk=%.4f;wrv=%.4f;gsk=%.4f;gsv=%.4f;asv=%.4f;grk=%.4f;mrk=%.4f;wvk=%.4f;sgk=%.4f;ark=%.4f\n", strompreis, wasser_gesamtkosten, wasser_gesamtverbrauch, gas_gesamtkosten, gas_gesamtverbrauch, allgemeiner_stromverbrauch, grundsteuer, muellabfuhrkosten, wohngebaeudeversicherung, straßenreinigung, abwasserkosten);
-
         for (unsigned int i = 0; i < num_wohnung; i++) {
             fprintf_s(sf, "name=%s;qm=%.4f;pn=%u;wr=%.4f;st=%.4f;hz=%.4f\n", wohnung[i].c_str(), quadratmeter_wohnung[i], personen_wohnung[i], wasserzaehler[i], stromzaehler[i], heizungszaehler[i]);
         }
-
         fclose(sf);
+
     }
+    else { cout << "\nFEHLER: Datei konnte nicht gespeichert werden !\n"; }
+
+    
 
 }
 
@@ -852,6 +852,17 @@ void wohnungen_anzeigen() {
 
 void hausabrechnung() {
 
+    //Maßstab
+    std::cout << "\nRechnungsschluessel und Masstab\n" << endl;
+    printf("Wasserpreis: %.2f Euro/m3\n", wasser_gesamtkosten / wasser_gesamtverbrauch);
+    printf("Gaspreis: %.2f Euro/m3\n", gas_gesamtkosten / gas_gesamtverbrauch);
+    printf("Stromkosten(pro Person): %.2f Euro\n", allgemeine_strom_person);
+    printf("Grundsteuer: %.2f Euro/m2\n", grundsteuer_m2);
+    printf("Muellabfuhrkosten(pro Person): %.2f Euro\n", muellabfuhrkosten_person);
+    printf("Wohngebaeudeversicherung: %.2f Euro/m2\n", wohngebaeudeversicherung_m2);
+    printf("Strassenreinigung(pro Person): %.2f Euro\n", straßenreinigung_person);
+    printf("Abwasserkosten(pro Person): %.2f Euro\n", abwasserkosten_person);
+
     unsigned int colsize = 13; // mindestgroesse für die Spalten der Tabelle
     //unsigned int wlen = 0;
     int rowsize = 27;
@@ -868,7 +879,7 @@ void hausabrechnung() {
     // Unterteilung 
     std::cout << row_line;
     for (unsigned int w = 0; w < num_wohnung; w++) { std::cout << subline; }
-    std::cout << endl;
+    std::cout << "-------" << endl;
 
     // stromkosten
     std::cout << " Stromkosten (Euro)        |"; // rowsize +1
@@ -881,7 +892,7 @@ void hausabrechnung() {
     // Unterteilung 
     std::cout << row_line;
     for (unsigned int w = 0; w < num_wohnung; w++) { std::cout << subline; }
-    std::cout << endl;
+    std::cout << "-------" << endl;
 
     //second
     std::cout << " Wasserkosten (Euro)       |"; // rowsize +1
@@ -894,7 +905,7 @@ void hausabrechnung() {
     // Unterteilung 
     std::cout << row_line;
     for (unsigned int w = 0; w < num_wohnung; w++) { std::cout << subline; }
-    std::cout << endl;
+    std::cout << "-------" << endl;
 
     //third	
     std::cout << " Heizungskosten (Euro)     |";
@@ -907,7 +918,7 @@ void hausabrechnung() {
     // Unterteilung 
     std::cout << row_line;
     for (unsigned int w = 0; w < num_wohnung; w++) { std::cout << subline; }
-    std::cout << endl;
+    std::cout << "-------" << endl;
 
     //third 
     std::cout << " allgemeine Stromkosten    |"; // rowsize +1
@@ -920,7 +931,7 @@ void hausabrechnung() {
     // Unterteilung 
     std::cout << row_line;
     for (unsigned int w = 0; w < num_wohnung; w++) { std::cout << subline; }
-    std::cout << endl;
+    std::cout << "-------" << endl;
 
     //
     std::cout << " Grundsteuer (Euro)        |";// rowsize +1
@@ -933,7 +944,7 @@ void hausabrechnung() {
     // Unterteilung 
     std::cout << row_line;
     for (unsigned int w = 0; w < num_wohnung; w++) { std::cout << subline; }
-    std::cout << endl;
+    std::cout << "-------" << endl;
 
     //seventh
     std::cout << " Wohngebaeudeversicherung  |"; // rowsize +1
@@ -946,7 +957,7 @@ void hausabrechnung() {
     // Unterteilung 
     std::cout << row_line;
     for (unsigned int w = 0; w < num_wohnung; w++) { std::cout << subline; }
-    std::cout << endl;
+    std::cout << "-------" << endl;
 
     std::cout << " Muellabfuhrkosten (Euro)  |"; // rowsize +1
     for (unsigned int w = 0; w < num_wohnung; w++) { 
@@ -958,7 +969,7 @@ void hausabrechnung() {
     // Unterteilung 
     std::cout << row_line;
     for (unsigned int w = 0; w < num_wohnung; w++) { std::cout << subline; }
-    std::cout << endl;
+    std::cout << "-------" << endl;
 
     std::cout << " Strassenreinigung (Euro)  |"; // rowsize +1
     for (unsigned int w = 0; w < num_wohnung; w++) { 
@@ -970,7 +981,7 @@ void hausabrechnung() {
     // Unterteilung 
     std::cout << row_line;
     for (unsigned int w = 0; w < num_wohnung; w++) { std::cout << subline; }
-    std::cout << endl;
+    std::cout << "-------" << endl;
 
     std::cout << " Abwasserkosten (Euro)     |"; // rowsize +1
     for (unsigned int w = 0; w < num_wohnung; w++) { 
@@ -982,7 +993,7 @@ void hausabrechnung() {
     // Unterteilung 
     std::cout << row_line;
     for (unsigned int w = 0; w < num_wohnung; w++) { std::cout << subline; }
-    std::cout << endl;
+    std::cout << "-------" << endl;
 
     std::cout << "          SUMME            |";
     for (unsigned int w = 0; w < num_wohnung; w++) { printf("%*.2f  |", colsize - 1, summen[w]); }
@@ -999,12 +1010,12 @@ bool main_dialog() {
 
     char option;
     std::cout << "\nHAUPTMENUE\nWaehlen Sie eine der folgenden Optionen aus -\n";
-    std::cout << "a: Neue Wohnung anlegen\n";
+    std::cout << "a: HAUSABRECHNUNG durchfueren und anzeigen\n";
     std::cout << "b: Eingaben und Daten speichern\n";
-    std::cout << "c: HAUSABRECHNUNG durchfueren und anzeigen\n";
-    std::cout << "d: gespeicherte Kennzahlen anzeigen\n";
-    std::cout << "e: gespeicherte Wohnungsdaten anzeigen\n";
-    std::cout << "f: neue Kennzahlen eingeben\n";
+    std::cout << "c: Neue Wohnung anlegen\n";
+    std::cout << "d: Anzeigen gespeicherter Kennzahlen\n";
+    std::cout << "e: Anzeigen gespeicherter Wohnungsdaten\n";
+    std::cout << "f: Neue Kennzahlen eingeben\n";
     std::cout << "g: Einzelne Kennzahl aendern\n";
     std::cout << "h: Wohnungsdaten loeschen\n";
     std::cout << "i: Daten einzelner Wohnung aendern\n";
@@ -1017,8 +1028,7 @@ bool main_dialog() {
     switch (option) {
 
     case 'a':
-        std::cout << "\nNEUE WOHNUNG ANLEGEN , Daten werden abgefragt... " << endl;
-        wohnungsdaten_abfrage();
+        if (compute_measures()) { hausabrechnung(); }
         return true;
 
     case 'b':
@@ -1027,7 +1037,8 @@ bool main_dialog() {
         return true;
 
     case 'c':
-        if (compute_measures()) { hausabrechnung(); }
+        std::cout << "\nNEUE WOHNUNG ANLEGEN , Daten werden abgefragt... " << endl;
+        wohnungsdaten_abfrage();
         return true;
 
     case 'd':
@@ -1095,6 +1106,7 @@ int main(int argc, char* argv[]) {
 
     //num_wohnung = 0;
 
+    std::cout << "HAUSABRECHNUNG MINITOOL 1.0" << endl;
     std::cout << "\nWillkommen beim Programm fuer Ihre Hausabrechnung -\nSuche nach gespeicherten Daten..." << endl;
 
     /* //überflüssig
@@ -1246,6 +1258,8 @@ int main(int argc, char* argv[]) {
     return 0;
 
 }
+
+
 
 
 
