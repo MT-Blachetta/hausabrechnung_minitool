@@ -20,17 +20,32 @@ vector<unsigned int> personen_wohnung = {}; // pn
 vector<float> wasserzaehler = {}; // wr
 vector<float> stromzaehler = {}; // st
 vector<float> heizungszaehler = {}; // bilde Summe aus Heizungszaelerwerten
+//vector<float> num_heizungen = {};
 
 //kein Heizungsverbrauch nach Raum
 //vector<unsigned int> wohnung_num_raum; // rn
 //vector<string> raumname;
 //vector<float> raum_heizungszaehler;
+// skibatron miete
+
+float gas_fixanteil = 0.3;
+float gas_variabel = 0.7;
 
 // Gesamtkosten
 float strompreis; // sp
 float wasser_gesamtkosten; // wrk
 float wasser_gesamtverbrauch; // wrv
 float gas_gesamtkosten; // gsk
+float gas_verbrauchskosten; //
+
+float gas_nebenkosten;
+// fuer Gas Nebenkosten
+//float gas_ablesung;
+//float gas_wartungskosten;
+//float gas_schornsteinfeger;
+//float gas_abrechnungsdienst;
+
+
 float gas_gesamtverbrauch; // gsv
 float allgemeiner_stromverbrauch; // sak
 float grundsteuer; // grk
@@ -53,13 +68,16 @@ float muellabfuhrkosten_person;
 float wohngebaeudeversicherung_m2;
 float straßenreinigung_person;
 float abwasserkosten_person;
-
+float gasfixkostenpreis;
 
 // Check string for valid format
 
+    
+
+
 bool checkStringA(const std::string& str) {
 
-    std::regex pattern("sp=\\d+\\.\\d{1,4};wrk=\\d+\\.\\d{1,4};wrv=\\d+\\.\\d{1,4};gsk=\\d+\\.\\d{1,4};gsv=\\d+\\.\\d{1,4};asv=\\d+\\.\\d{1,4};grk=\\d+\\.\\d{1,4};mrk=\\d+\\.\\d{1,4};wvk=\\d+\\.\\d{1,4};sgk=\\d+\\.\\d{1,4};ark=\\d+\\.\\d{1,4}");
+    std::regex pattern("sp=\\d+\\.\\d{1,4};wrk=\\d+\\.\\d{1,4};wrv=\\d+\\.\\d{1,4};gV=\\d+\\.\\d{1,4};gN=\\d+\\.\\d{1,4};gsv=\\d+\\.\\d{1,4};asv=\\d+\\.\\d{1,4};grk=\\d+\\.\\d{1,4};mrk=\\d+\\.\\d{1,4};wvk=\\d+\\.\\d{1,4};sgk=\\d+\\.\\d{1,4};ark=\\d+\\.\\d{1,4}");
 
     return std::regex_match(str, pattern);
 
@@ -80,7 +98,7 @@ void save_data(const string& save_path) {
 
     if (ecode == 0) { // Datei wurde geoeffnet, sf wird genutzt um in die Datei zu schreiben
 
-        fprintf_s(sf, "sp=%.4f;wrk=%.4f;wrv=%.4f;gsk=%.4f;gsv=%.4f;asv=%.4f;grk=%.4f;mrk=%.4f;wvk=%.4f;sgk=%.4f;ark=%.4f\n", strompreis, wasser_gesamtkosten, wasser_gesamtverbrauch, gas_gesamtkosten, gas_gesamtverbrauch, allgemeiner_stromverbrauch, grundsteuer, muellabfuhrkosten, wohngebaeudeversicherung, straßenreinigung, abwasserkosten);
+        fprintf_s(sf, "sp=%.4f;wrk=%.4f;wrv=%.4f;gV=%.4f;gN=%.4f;gsv=%.4f;asv=%.4f;grk=%.4f;mrk=%.4f;wvk=%.4f;sgk=%.4f;ark=%.4f\n", strompreis, wasser_gesamtkosten, wasser_gesamtverbrauch, gas_verbrauchskosten, gas_nebenkosten ,gas_gesamtverbrauch, allgemeiner_stromverbrauch, grundsteuer, muellabfuhrkosten, wohngebaeudeversicherung, straßenreinigung, abwasserkosten);
         for (unsigned int i = 0; i < num_wohnung; i++) {
             fprintf_s(sf, "name=%s;qm=%.4f;pn=%u;wr=%.4f;st=%.4f;hz=%.4f\n", wohnung[i].c_str(), quadratmeter_wohnung[i], personen_wohnung[i], wasserzaehler[i], stromzaehler[i], heizungszaehler[i]);
         }
@@ -132,9 +150,11 @@ void print_general_values() {
     printf("Gesamtverbrauch: %.2f m3\n", wasser_gesamtverbrauch);
     printf("Preis pro Kubikmeter: %.2f Euro\n", wasser_gesamtkosten / wasser_gesamtverbrauch);
     printf("\nGAS\n");
-    printf("Gesamtkosten: %.2f Euro\n", gas_gesamtkosten);
+    printf("GasVerbrauch Kosten: %.2f Euro\n", gas_verbrauchskosten);
     printf("Gesamtverbrauch: %.2f m3\n", gas_gesamtverbrauch);
     printf("Preis pro Kubikmeter: %.2f Euro\n", gas_gesamtkosten / gas_gesamtverbrauch);
+    printf("Gas Nebenkosten: %.2f Euro\n", gas_nebenkosten);
+    printf("Gas GESAMT-Kosten: %.2f Euro\n", gas_gesamtkosten);
     printf("\nSTROM (allgemein)\n");
     printf("allgemeiner Stromverbrauch: %.2f kWh\n", allgemeiner_stromverbrauch);
     printf("Strompreis: %.2f Euro/kWh\n", strompreis);
@@ -164,12 +184,29 @@ void kennzahl_abfrage() {
 
     input_value(wasser_gesamtverbrauch, "Wie hoch ist der Gesamtverbrauch fuer Wasser des gesamten Hauses in Kubikmeter m3 (Beispiel: 40 oder 40.5): ");
     std::cout << "Wasser (Gesamtverbrauch) in m3 = " << wasser_gesamtverbrauch << "\n";
-
-    input_value(gas_gesamtkosten, "Wie hoch sind die Gesamtkosten fuer Gas des gesamten Hauses in Euro (Beispiel 279.80): ");
-    std::cout << "Gas (Gesamtkosten) in Euro = " << gas_gesamtkosten << "\n";
-
+    
     input_value(gas_gesamtverbrauch, "Wie hoch ist der gesamte Gasverbrauch des Hauses in m3 (Kubikmeter), (Beispiel: 40 oder 40.5): ");
     std::cout << "Gas (Gesamtverbrauch) in m3 = " << gas_gesamtverbrauch << "\n";
+
+    input_value(gas_verbrauchskosten, "Wie hoch sind die Gesamtkosten vom Gas-Verbrauch (ohne Nebenkosten) des gesamten Hauses in Euro (Beispiel 279.80): ");
+    std::cout << "Gas (Verbrauchskosten) in Euro = " << gas_verbrauchskosten << "\n";
+    
+    std::cout << "ABFRAGE der Heizungs-Nebenkosten: " << endl;
+    gas_nebenkosten = 0;
+    float gas_ablesung;
+    float gas_wartungskosten;
+    float gas_schornsteinfeger;
+    //float gas_abrechnungsdienst;
+    input_value(gas_ablesung, "Wie hoch sind die Ablesekosten und/oder Miete fuer die Heizungszaehler in Euro: ");
+    gas_nebenkosten += gas_ablesung;
+    input_value(gas_wartungskosten,"Wie hoch sind die Wartungskosten fuer die Heizungen in Euro: ");
+    gas_nebenkosten += gas_wartungskosten;
+    input_value(gas_schornsteiger,"Wie hoch sind die Kosten fuer den Schornsteinfeger in Euro: ");
+    gas_nebenkosten += gas_schornsteinfeger;
+    std::cout << "Gas (Nebenkosten) in Euro = "<< gas_nebenkosten << endl;
+    gas_gesamtkosten = gas_verbrauchskosten + gas_nebenkosten;
+    std::cout << "Gas GESAMT-kosten in Euro = " << gas_gesamtkosten << endl;
+    
 
     input_value(strompreis, "Wie hoch sind die aktuellen Stromkosten pro kW/h in Euro (Beispiel 6.99): ");
     std::cout << "Strompreis pro kW/h in Euro = " << strompreis << "\n";
@@ -504,57 +541,64 @@ void load_main_data(string& dataline) {
     valstring = token.substr(vnidx);
     wasser_gesamtverbrauch = std::stof(valstring);
 
-    //gsk
+    //gV
     token = kennzahlen[3];
     vnidx = search_backwards(token, '=');
     //namestring = token.substr(0, vnidx - 1);
     valstring = token.substr(vnidx);
-    gas_gesamtkosten = std::stof(valstring);
+    gas_verbrauchskosten = std::stof(valstring);
+    
+    //gN
+    token = kennzahlen[4];
+    vnidx = search_backwards(token, '=');
+    //namestring = token.substr(0, vnidx - 1);
+    valstring = token.substr(vnidx);
+    gas_nebenkosten = std::stof(valstring);
 
     //gsv
-    token = kennzahlen[4];
+    token = kennzahlen[5];
     vnidx = search_backwards(token, '=');
     //namestring = token.substr(0, vnidx - 1);
     valstring = token.substr(vnidx);
     gas_gesamtverbrauch = std::stof(valstring);
 
     //asv
-    token = kennzahlen[5];
+    token = kennzahlen[6];
     vnidx = search_backwards(token, '=');
     //namestring = token.substr(0, vnidx - 1);
     valstring = token.substr(vnidx);
     allgemeiner_stromverbrauch = std::stof(valstring);
 
     //grk
-    token = kennzahlen[6];
+    token = kennzahlen[7];
     vnidx = search_backwards(token, '=');
     //namestring = token.substr(0, vnidx - 1);
     valstring = token.substr(vnidx);
     grundsteuer = std::stof(valstring);
 
     //mrk
-    token = kennzahlen[7];
+    token = kennzahlen[8];
     vnidx = search_backwards(token, '=');
     //namestring = token.substr(0, vnidx - 1);
     valstring = token.substr(vnidx);
     muellabfuhrkosten = std::stof(valstring);
 
     //wvk
-    token = kennzahlen[8];
+    token = kennzahlen[9];
     vnidx = search_backwards(token, '=');
     //namestring = token.substr(0, vnidx - 1);
     valstring = token.substr(vnidx);
     wohngebaeudeversicherung = std::stof(valstring);
 
     //sgk
-    token = kennzahlen[9];
+    token = kennzahlen[10];
     vnidx = search_backwards(token, '=');
     //namestring = token.substr(0, vnidx - 1);
     valstring = token.substr(vnidx);
     straßenreinigung = std::stof(valstring);
 
     //ark
-    token = kennzahlen[10];
+    token = kennzahlen[11];
     vnidx = search_backwards(token, '=');
     //namestring = token.substr(0, vnidx - 1);
     valstring = token.substr(vnidx);
@@ -618,7 +662,7 @@ void change_single_value() {
     std::cout << "\nWelche Zahl moechten sie aendern ?" << endl;
     std::cout << "a: Wasser Gesamtkosten in Euro" << endl;
     std::cout << "b: Wasser Gesamtverbrauch in m3" << endl;
-    std::cout << "c: Gas Gesatkosten in Euro" << endl;
+    std::cout << "c: Gas Gesamtverbrauch Kosten in Euro" << endl;
     std::cout << "d: Gas Gesamtverbrauch in m3" << endl;
     std::cout << "e: Strompreis pro kW/h in Euro" << endl;
     std::cout << "f: allgemeiner Stromverbrauch in kW/h" << endl;
@@ -627,9 +671,12 @@ void change_single_value() {
     std::cout << "i: Wohngebaeudeversicherung (gesamt) in Euro" << endl;
     std::cout << "j: Strassenreinigung in Euro" << endl;
     std::cout << "k: Abwasserkosten in Euro" << endl;
-    std::cout << "l: ABBRECHEN" << endl;
+    std::cout << "l: Gas Nebenkosten (Mehrfachabfrage)" << endl;
+    std::cout << "m: Gas Fixkostenanteil (Voreinstellung = 0.3)" << endl;
+    std::cout << "x: ABBRUCH" << endl;
     std::cout << "Geben Sie den richtigen Buchstaben fuer die jeweilige Kennzahl an, die Sie aendern moechten: ";
     cin >> val_ID;
+    
 
 
     switch (val_ID) {
@@ -642,8 +689,9 @@ void change_single_value() {
         std::cout << "Wasser (Gesamtverbrauch) in m3 = " << wasser_gesamtverbrauch << "\n";
         return;
     case 'c':
-        input_value(gas_gesamtkosten, "Wie hoch sind die Gesamtkosten fuer Gas des gesamten Hauses in Euro (Beispiel 279.80): ");
-        std::cout << "Gas (Gesamtkosten) in Euro = " << gas_gesamtkosten << "\n";
+        input_value(gas_verbrauchskosten, "Wie hoch sind die Gesamtkosten fuer Gas des gesamten Hauses in Euro (Beispiel 279.80): ");
+        gas_gesamtkosten = gas_verbrauchskosten + gas_nebenkosten;
+        std::cout << "Gas (Gesamtkosten) in Euro = " << gas_gesamtkosten << endl;
         return;
     case 'd':
         input_value(gas_gesamtverbrauch, "Wie hoch ist der gesamte Gasverbrauch des Hauses in m3 (Kubikmeter), (Beispiel: 40 oder 40.5): ");
@@ -678,6 +726,26 @@ void change_single_value() {
         std::cout << "Abwasserkosten in Euro = " << abwasserkosten << "\n";
         return;
     case 'l':
+       std::cout << "ABFRAGE der Heizungs-Nebenkosten: " << endl;
+       gas_nebenkosten = 0;
+       float gas_ablesung;
+       float gas_wartungskosten;
+       float gas_schornsteinfeger;
+       input_value(gas_ablesung, "Wie hoch sind die Ablesekosten und/oder Miete fuer die Heizungszaehler in Euro: ");
+       gas_nebenkosten += gas_ablesung;
+       input_value(gas_wartungskosten,"Wie hoch sind die Wartungskosten fuer die Heizungen in Euro: ");
+       gas_nebenkosten += gas_wartungskosten;
+       input_value(gas_schornsteiger,"Wie hoch sind die Kosten fuer den Schornsteinfeger in Euro: ");
+       gas_nebenkosten += gas_schornsteinfeger;
+       std::cout << "Gas (Nebenkosten) in Euro = "<< gas_nebenkosten << endl;
+       gas_gesamtkosten = gas_verbrauchskosten + gas_nebenkosten;
+       std::cout << "Gas GESAMT-kosten in Euro = " << gas_gesamtkosten << endl;
+       return;            
+    case 'm':
+            input_val(gas_fixanteil,"Geben Sie den Anteil der Gaskosten an der fix nach Quadratmeter abgerechnet wird in Prozent (Beispiel 30): ");
+            gas_fixanteil = gas_fixanteil/100;
+            gas_variabel = 1 - gas_fixanteil;
+    case 'x':
         return;
     default:
         std::cout << "Ungueltige Eingabe --> Abbruch, bitte geben sie naechstes mal einen Buchstaben zwischen a-l an." << endl;
@@ -697,6 +765,7 @@ bool compute_measures() {
     wohnflaeche = 0;
     personen_gesamt = 0;
     heizung_gesamt = 0;
+    gas_gesamtkosten = gas_verbrauchskosten + gas_nebenkosten;
 
     for (unsigned int i = 0; i < num_wohnung; i++) {
         wohnflaeche += quadratmeter_wohnung[i];
@@ -732,13 +801,14 @@ bool compute_measures() {
     wasserpreis = wasser_gesamtkosten / wasser_gesamtverbrauch;
 
     //gaspreis
-    if (gas_gesamtverbrauch < 1) {
+    if (gas_verbrauchskosten < 1) {
         std::cout << "FEHLER: Die Aktion kann nicht durchgefuehrt werden\nSie haben keinen Wert groesser 1 für den Gas Gesamtverbrauch angegeben. Aendern Sie die Kennzahl mit der jeweiligen Option" << endl;
         return false;
     }
-    gaspreis = gas_gesamtkosten / gas_gesamtverbrauch;
+    gaspreis = gas_verbrauchskosten / gas_gesamtverbrauch;
 
-    gaseinheitspreis = gas_gesamtkosten / heizung_gesamt;
+    gaseinheitspreis = (gas_gesamtkosten*gas_variabel)/heizung_gesamt;
+    gasfixkostenpreis = (gas_gesamtkosten*gas_fixanteil)/wohnflaeche;
 
     //allgemeinstrom_person
     allgemeine_strom_person = allgemeine_stromkosten / personen_gesamt;
@@ -855,7 +925,7 @@ void hausabrechnung() {
     //Maßstab
     std::cout << "\nRechnungsschluessel und Masstab\n" << endl;
     printf("Wasserpreis: %.2f Euro/m3\n", wasser_gesamtkosten / wasser_gesamtverbrauch);
-    printf("Gaspreis: %.2f Euro/m3\n", gas_gesamtkosten / gas_gesamtverbrauch);
+    printf("Gaspreis: %.2f Euro/m3\n", gas_verbrauchskosten / gas_gesamtverbrauch);
     printf("Stromkosten(pro Person): %.2f Euro\n", allgemeine_strom_person);
     printf("Grundsteuer: %.2f Euro/m2\n", grundsteuer_m2);
     printf("Muellabfuhrkosten(pro Person): %.2f Euro\n", muellabfuhrkosten_person);
@@ -908,10 +978,10 @@ void hausabrechnung() {
     std::cout << "-------" << endl;
 
     //third	
-    std::cout << " Heizungskosten (Euro)     |";
+    std::cout << " Heizungskosten (gesamt)   |";
     for (unsigned int w = 0; w < num_wohnung; w++) { 
-        printf("%*.2f  |", colsize - 1, heizungszaehler[w] * gaseinheitspreis);
-        summen[w] += heizungszaehler[w] * gaseinheitspreis;
+        printf("%*.2f  |", colsize - 1, (heizungszaehler[w]*gaseinheitspreis)+(quadratmeter_wohnung[w]*gasfixkostenpreis) );
+        summen[w] += (heizungszaehler[w]*gaseinheitspreis)+(quadratmeter_wohnung[w]*gasfixkostenpreis);
     }
     std::cout << "  EUR" << endl;
 
