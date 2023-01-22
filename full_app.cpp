@@ -387,11 +387,11 @@ void wohnungsdaten_abfrage() {
 
     float quadratmeter;
     input_value(quadratmeter, "Geben Sie die Flaeche der Wohnung in m2 an: ");
-    std::cout << endl;
+    //std::cout << endl;
 
     float wasserverbrauch;
     input_value(wasserverbrauch, "Geben Sie den Stand des Wasserzaehlers in m3 ein: ");
-    std::cout << endl;
+    //std::cout << endl;
 
     float stromverbrauch;
     input_value(stromverbrauch, "Geben Sie den Stand des Stromzaehlers in kW/h ein: ");
