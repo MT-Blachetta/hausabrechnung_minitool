@@ -201,7 +201,7 @@ void kennzahl_abfrage() {
     gas_nebenkosten += gas_ablesung;
     input_value(gas_wartungskosten,"Wie hoch sind die Wartungskosten fuer die Heizungen in Euro: ");
     gas_nebenkosten += gas_wartungskosten;
-    input_value(gas_schornsteiger,"Wie hoch sind die Kosten fuer den Schornsteinfeger in Euro: ");
+    input_value(gas_schornsteinfeger,"Wie hoch sind die Kosten fuer den Schornsteinfeger in Euro: ");
     gas_nebenkosten += gas_schornsteinfeger;
     std::cout << "Gas (Nebenkosten) in Euro = "<< gas_nebenkosten << endl;
     gas_gesamtkosten = gas_verbrauchskosten + gas_nebenkosten;
@@ -475,7 +475,7 @@ void wohnungsdaten_abfrage() {
 
 int search_backwards(string target, char seperator) {
 
-    for (int i = target.length() - 1; i >= 0; i--) {
+    for (unsigned int i = target.length() - 1; i >= 0; i--) {
         if (target[i] == seperator)
         {
             return i + 1;
@@ -489,7 +489,7 @@ int search_backwards(string target, char seperator) {
 int search_forward(string target, char seperator) {
 
 
-    for (int i = 0; i < target.length(); i++) {
+    for (unsigned int i = 0; i < target.length(); i++) {
         if (target[i] == seperator)
         {
             return i + 1;
@@ -742,7 +742,7 @@ void change_single_value() {
        std::cout << "Gas GESAMT-kosten in Euro = " << gas_gesamtkosten << endl;
        return;            
     case 'm':
-            input_val(gas_fixanteil,"Geben Sie den Anteil der Gaskosten an der fix nach Quadratmeter abgerechnet wird in Prozent (Beispiel 30): ");
+            input_value(gas_fixanteil,"Geben Sie den Anteil der Gaskosten an der fix nach Quadratmeter abgerechnet wird in Prozent (Beispiel 30): ");
             gas_fixanteil = gas_fixanteil/100;
             gas_variabel = 1 - gas_fixanteil;
     case 'x':
