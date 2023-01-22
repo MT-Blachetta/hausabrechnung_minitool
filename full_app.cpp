@@ -121,15 +121,11 @@ void input_value(float& number, const std::string& message) {
         //eingabe = "";
 
         try {
-            char confirm = 'y';
-            do {
-                std::cout << message;
-                cin >> eingabe;
-                number = std::stof(eingabe);
-                std::cout << "Eingabe: " << number << " | bestaetigen 'y', aendern 'n': ";
-                cin >> confirm;
-            } while (confirm == 'n');
-            check = false;
+              std::cout << message;
+              std::cin >> eingabe;
+              std::cout << endl;
+              number = std::stof(eingabe);
+              check = false;
 
         }
         catch (const std::invalid_argument& e) {
@@ -264,14 +260,9 @@ void wohnung_aendern(unsigned int i) {
 
     case 'a':
     
-      confirm = 'y';
-        do {
-              std::cout << "Geben Sie den Namen der Wohnung ein: ";
-              cin >> wohnungsname;
-              std::cout << "Eingabe: " << wohnungsname << " | bestaetigen 'y', aendern 'n': ";
-              cin >> confirm;
-              std::cout << endl;
-           } while (confirm == 'n');
+           std::cout << "Geben Sie den Namen der Wohnung ein: ";
+           cin >> wohnungsname;
+           std::cout << endl;
            wohnung[i] = wohnungsname;
            break; 
     
@@ -285,16 +276,12 @@ void wohnung_aendern(unsigned int i) {
         check = true;
         while (check) {
             try {
-                confirm = 'y';
-                do {
-                    std::cout << "Wie viele Personen wohnen im Raum ? (einfache Zahl): ";
-                    cin >> person_str;
-                    personen = std::stoul(person_str);
-                    std::cout << "Eingabe: " << personen << " | bestaetigen 'y', aendern 'n': ";
-                    cin >> confirm;
-                    std::cout << endl;
-                } while (confirm == 'n');
+                 
+                std::cout << "Wie viele Personen wohnen im Raum ? (einfache Zahl): ";
+                cin >> person_str;
+                personen = std::stoul(person_str);
                 check = false;
+
             }
             catch (const std::invalid_argument& e) {
                 std::cout << "Die Eingegebene Zeichenfolge ist keine gueltige Zahl ! Sie muessen den Wert nochmal korrekt angeben:\n";
@@ -373,14 +360,10 @@ void wohnung_aendern(unsigned int i) {
 void wohnungsdaten_abfrage() {
 
     string wohnungsname;
-    char confirm = 'y';
-    do {
-        std::cout << "Geben Sie den Namen der Wohnung ein: ";
-        cin >> wohnungsname;
-        std::cout << "Eingabe: " << wohnungsname << " | bestaetigen 'y', aendern 'n': ";
-        cin >> confirm;
-        std::cout << endl;
-    } while (confirm == 'n');
+    
+    std::cout << "Geben Sie den Namen der Wohnung ein: ";
+    std::cin >> wohnungsname;
+
 
     bool check = true;
     string person_str;
@@ -388,21 +371,18 @@ void wohnungsdaten_abfrage() {
     while (check) {
 
         try {
-            char confirm = 'y';
-            do {
-                std::cout << "Wie viele Personen wohnen im Raum ? (einfache Zahl): ";
-                cin >> person_str;
-                personen = std::stoul(person_str);
-                std::cout << "Eingabe: " << personen << " | bestaetigen 'y', aendern 'n': ";
-                cin >> confirm;
-                std::cout << endl;
-            } while (confirm == 'n');
+            
+            std::cout << "Wie viele Personen wohnen im Raum ? (einfache Zahl): ";
+            cin >> person_str;
+            personen = std::stoul(person_str);
             check = false;
+
         }
         catch (const std::invalid_argument& e) {
             std::cout << "Die Eingegebene Zeichenfolge ist keine gueltige Zahl ! Sie muessen den Wert nochmal korrekt angeben:\n";
             continue;
         }
+
     }
 
     float quadratmeter;
@@ -1328,6 +1308,7 @@ int main(int argc, char* argv[]) {
     return 0;
 
 }
+
 
 
 
