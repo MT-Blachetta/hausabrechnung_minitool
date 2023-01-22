@@ -1229,7 +1229,7 @@ int main(int argc, char* argv[]) {
                 printf("\nWeitere Nebenkosten\n");
                 printf("\nGrundsteuer (gesamt): %.2f Euro\n", grundsteuer);
                 printf("Muellabfuhr (gesamt): %.2f Euro\n", muellabfuhrkosten);
-                printf("Muellabfuhrkosten pro Person: %.2f Euro\n", muellabfuhrkosten_person);
+                //printf("Muellabfuhrkosten pro Person: %.2f Euro\n", muellabfuhrkosten_person);
                 printf("Wohngebaeudeversicherung (gesamt): %.2f Euro\n", wohngebaeudeversicherung);
                 printf("Strassenreinigung (gesamt): %.2f Euro\n", straßenreinigung);
                 printf("Abwasserkosten (gesamt): %.2f Euro\n", abwasserkosten);
@@ -1262,7 +1262,7 @@ int main(int argc, char* argv[]) {
             printf("\nWeitere Nebenkosten\n");
             printf("\nGrundsteuer (gesamt): %.2f Euro\n", grundsteuer);
             printf("Muellabfuhr (gesamt): %.2f Euro\n", muellabfuhrkosten);
-            printf("Muellabfuhrkosten pro Person: %.2f Euro\n", muellabfuhrkosten_person);
+            //printf("Muellabfuhrkosten pro Person: %.2f Euro\n", muellabfuhrkosten_person);
             printf("Wohngebaeudeversicherung (gesamt): %.2f Euro\n", wohngebaeudeversicherung);
             printf("Strassenreinigung (gesamt): %.2f Euro\n", straßenreinigung);
             printf("Abwasserkosten (gesamt): %.2f Euro\n", abwasserkosten);
@@ -1298,7 +1298,7 @@ int main(int argc, char* argv[]) {
         printf("\nWeitere Nebenkosten\n");
         printf("\nGrundsteuer (gesamt): %.2f Euro\n", grundsteuer);
         printf("Muellabfuhr (gesamt): %.2f Euro\n", muellabfuhrkosten);
-        printf("Muellabfuhrkosten pro Person: %.2f Euro\n", muellabfuhrkosten_person);
+        //printf("Muellabfuhrkosten pro Person: %.2f Euro\n", muellabfuhrkosten_person);
         printf("Wohngebaeudeversicherung (gesamt): %.2f Euro\n", wohngebaeudeversicherung);
         printf("Strassenreinigung (gesamt): %.2f Euro\n", straßenreinigung);
         printf("Abwasserkosten (gesamt): %.2f Euro\n", abwasserkosten);
