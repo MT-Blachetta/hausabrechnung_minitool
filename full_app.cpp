@@ -123,7 +123,7 @@ void input_value(float& number, const std::string& message) {
         try {
               std::cout << message;
               std::cin >> eingabe;
-              std::cout << endl;
+              //std::cout << endl;
               number = std::stof(eingabe);
               check = false;
 
@@ -187,7 +187,7 @@ void kennzahl_abfrage() {
     input_value(gas_verbrauchskosten, "Wie hoch sind die Gesamtkosten vom Gas-Verbrauch (ohne Nebenkosten) des gesamten Hauses in Euro (Beispiel 279.80): ");
     std::cout << "Gas (Verbrauchskosten) in Euro = " << gas_verbrauchskosten << "\n";
     
-    std::cout << "ABFRAGE der Heizungs-Nebenkosten: " << endl;
+    std::cout << "\nABFRAGE der Heizungs-Nebenkosten: " << endl;
     gas_nebenkosten = 0;
     float gas_ablesung;
     float gas_wartungskosten;
