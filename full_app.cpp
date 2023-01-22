@@ -208,7 +208,7 @@ void kennzahl_abfrage() {
     std::cout << "Gas GESAMT-kosten in Euro = " << gas_gesamtkosten << endl;
     
 
-    input_value(strompreis, "Wie hoch sind die aktuellen Stromkosten pro kW/h in Euro (Beispiel 6.99): ");
+    input_value(strompreis, "Wie hoch ist der Strompreis in Euro pro kW/h (Beispiel 6.99): ");
     std::cout << "Strompreis pro kW/h in Euro = " << strompreis << "\n";
 
     input_value(allgemeiner_stromverbrauch, "Wie hoch ist der allgemeine Stromverbrauch des Hauses in Kw/h (Beispiel: 25 oder 20.5): ");
@@ -698,7 +698,7 @@ void change_single_value() {
         std::cout << "Gas (Gesamtverbrauch) in m3 = " << gas_gesamtverbrauch << "\n";
         return;
     case 'e':
-        input_value(strompreis, "Wie hoch sind die aktuellen Stromkosten pro kW/h in Euro (Beispiel 6.99): ");
+        input_value(strompreis, "Wie hoch ist der Strompreis in Euro pro kW/h (Beispiel 6.99): ");
         std::cout << "Strompreis pro kW/h in Euro = " << strompreis << "\n";
         return;
     case 'f':
