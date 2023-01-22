@@ -735,7 +735,7 @@ void change_single_value() {
        gas_nebenkosten += gas_ablesung;
        input_value(gas_wartungskosten,"Wie hoch sind die Wartungskosten fuer die Heizungen in Euro: ");
        gas_nebenkosten += gas_wartungskosten;
-       input_value(gas_schornsteiger,"Wie hoch sind die Kosten fuer den Schornsteinfeger in Euro: ");
+       input_value(gas_schornsteinfeger,"Wie hoch sind die Kosten fuer den Schornsteinfeger in Euro: ");
        gas_nebenkosten += gas_schornsteinfeger;
        std::cout << "Gas (Nebenkosten) in Euro = "<< gas_nebenkosten << endl;
        gas_gesamtkosten = gas_verbrauchskosten + gas_nebenkosten;
