@@ -52,7 +52,7 @@ float grundsteuer; // grk
 float muellabfuhrkosten; // mrk
 float wohngebaeudeversicherung; // wvk
 float straßenreinigung; // sgk
-float abwasserkosten; // ark
+float entwaesserungskosten; // ark
 float allgemeine_stromkosten;
 
 float wohnflaeche;
@@ -67,7 +67,7 @@ float allgemeine_strom_person;
 float muellabfuhrkosten_person;
 float wohngebaeudeversicherung_m2;
 float straßenreinigung_person;
-float abwasserkosten_person;
+float entwaesserungskosten_person;
 float gasfixkostenpreis;
 
 // Check string for valid format
@@ -98,7 +98,7 @@ void save_data(const string& save_path) {
 
     if (ecode == 0) { // Datei wurde geoeffnet, sf wird genutzt um in die Datei zu schreiben
 
-        fprintf_s(sf, "sp=%.4f;wrk=%.4f;wrv=%.4f;gV=%.4f;gN=%.4f;gsv=%.4f;asv=%.4f;grk=%.4f;mrk=%.4f;wvk=%.4f;sgk=%.4f;ark=%.4f\n", strompreis, wasser_gesamtkosten, wasser_gesamtverbrauch, gas_verbrauchskosten, gas_nebenkosten ,gas_gesamtverbrauch, allgemeiner_stromverbrauch, grundsteuer, muellabfuhrkosten, wohngebaeudeversicherung, straßenreinigung, abwasserkosten);
+        fprintf_s(sf, "sp=%.4f;wrk=%.4f;wrv=%.4f;gV=%.4f;gN=%.4f;gsv=%.4f;asv=%.4f;grk=%.4f;mrk=%.4f;wvk=%.4f;sgk=%.4f;ark=%.4f\n", strompreis, wasser_gesamtkosten, wasser_gesamtverbrauch, gas_verbrauchskosten, gas_nebenkosten ,gas_gesamtverbrauch, allgemeiner_stromverbrauch, grundsteuer, muellabfuhrkosten, wohngebaeudeversicherung, straßenreinigung, entwaesserungskosten);
         for (unsigned int i = 0; i < num_wohnung; i++) {
             fprintf_s(sf, "name=%s;qm=%.4f;pn=%u;wr=%.4f;st=%.4f;hz=%.4f\n", wohnung[i].c_str(), quadratmeter_wohnung[i], personen_wohnung[i], wasserzaehler[i], stromzaehler[i], heizungszaehler[i]);
         }
@@ -165,8 +165,8 @@ void print_general_values() {
     printf("Wohngebaeudeversicherung pro Quadratmeter: %.2f Euro/m2\n", wohngebaeudeversicherung_m2);
     printf("Strassenreinigung (gesamt): %.2f Euro\n", straßenreinigung);
     printf("Strassenreinigung pro Person: %.2f Euro\n", straßenreinigung_person);
-    printf("Abwasserkosten (gesamt): %.2f Euro\n", abwasserkosten);
-    printf("Abwasserkosten pro Person: %.2f Euro\n", abwasserkosten_person);
+    printf("Entwaesserungkosten (gesamt): %.2f Euro\n", entwaesserungskosten);
+    printf("Entwaesserungkosten pro Person: %.2f Euro\n", entwaesserungskosten_person);
 
 }
 
@@ -175,7 +175,11 @@ void kennzahl_abfrage() {
     //input_value(hausflaeche, "Geben sie die Flaeche des gesamten Hauses in Quadratmeter m2 an. (Beispiel: 30 oder 27.5): ");
     //std::cout << "Hausflaeche in m2 = " << hausflaeche << "\n";
 
-    input_value(wasser_gesamtkosten, "Wie lauten die Gesamtkosten fuer den Wasserverbrauch des gesamten Hauses in Euro (Beispiel: 189.99): ");
+    float schmutzwasserkosten;
+    float wasserrechnung;
+    input_value(wasserrechnung, "Wie lauten die Gesamtkosten fuer den Wasserverbrauch (ohne Schmutzwassergebuehr) des Hauses in Euro (Beispiel: 189.99): ");
+    input_value(schmutzwasserkosten, "Wie hoch ist die Schutzwassergebuehr vom gesamten Wasserverbrauch des Hauses in Euro: ");
+    wasser_gesamtkosten = schmutzwasserkosten + wasserrechnung;
     std::cout << "Wasser (Gesamtkosten) in Euro = " << wasser_gesamtkosten << "\n";
 
     input_value(wasser_gesamtverbrauch, "Wie hoch ist der Gesamtverbrauch fuer Wasser des gesamten Hauses in Kubikmeter m3 (Beispiel: 40 oder 40.5): ");
@@ -222,8 +226,8 @@ void kennzahl_abfrage() {
     input_value(straßenreinigung, "Geben Sie die Gesamtkosten fuer die Strassenreinigung in Euro an (Beispiel 39.99): ");
     std::cout << "Strassenreinigung in Euro = " << straßenreinigung << "\n";
 
-    input_value(abwasserkosten, "Geben Sie die Gesamtkosten fuer Abwasser in Euro an (Beispiel 39.99): ");
-    std::cout << "Abwasserkosten in Euro = " << abwasserkosten << "\n";
+    input_value(entwaesserungskosten, "Geben Sie die Gesamtkosten fuer Entwaesserung in Euro an (Beispiel 39.99): ");
+    std::cout << "Entwaesserungkosten in Euro = " << entwaesserungskosten << "\n";
 
 
 }
@@ -582,7 +586,7 @@ void load_main_data(string& dataline) {
     vnidx = search_backwards(token, '=');
     //namestring = token.substr(0, vnidx - 1);
     valstring = token.substr(vnidx);
-    abwasserkosten = std::stof(valstring);
+    entwaesserungskosten = std::stof(valstring);
 
 
 
@@ -650,7 +654,7 @@ void change_single_value() {
     std::cout << "h: Muellabfuhrkosten in Euro" << endl;
     std::cout << "i: Wohngebaeudeversicherung (gesamt) in Euro" << endl;
     std::cout << "j: Strassenreinigung in Euro" << endl;
-    std::cout << "k: Abwasserkosten in Euro" << endl;
+    std::cout << "k: Entwaesserungkosten in Euro" << endl;
     std::cout << "l: Gas Nebenkosten (Mehrfachabfrage)" << endl;
     std::cout << "m: Gas Fixkostenanteil (Voreinstellung = 0.3)" << endl;
     std::cout << "x: ABBRUCH" << endl;
@@ -660,9 +664,13 @@ void change_single_value() {
 
 
     switch (val_ID) {
-    case 'a':
-        input_value(wasser_gesamtkosten, "Wie lauten die Gesamtkosten fuer den Wasserverbrauch des gesamten Hauses in Euro (Beispiel: 189.99): ");
-        std::cout << "Wasser (Gesamtkosten) in Euro = " << wasser_gesamtkosten << "\n";
+    case 'a':    
+        float schmutzwasserkosten;
+        float wasserrechnung;
+        input_value(wasserrechnung, "Wie lauten die Gesamtkosten fuer den Wasserverbrauch (ohne Schmutzwassergebuehr) des Hauses in Euro (Beispiel: 189.99): ");
+        input_value(schmutzwasserkosten, "Wie hoch ist die Schutzwassergebuehr vom gesamten Wasserverbrauch des Hauses in Euro: ");
+        wasser_gesamtkosten = schmutzwasserkosten + wasserrechnung;
+    std::cout << "Wasser (Gesamtkosten) in Euro = " << wasser_gesamtkosten << "\n";
         return;
     case 'b':
         input_value(wasser_gesamtverbrauch, "Wie hoch ist der Gesamtverbrauch fuer Wasser des gesamten Hauses in Kubikmeter m3 (Beispiel: 40 oder 40.5): ");
@@ -702,8 +710,8 @@ void change_single_value() {
         std::cout << "Strassenreinigung in Euro = " << straßenreinigung << "\n";
         return;
     case 'k':
-        input_value(abwasserkosten, "Geben Sie die Gesamtkosten fuer Abwasser in Euro an (Beispiel 39.99): ");
-        std::cout << "Abwasserkosten in Euro = " << abwasserkosten << "\n";
+        input_value(entwaesserungskosten, "Geben Sie die Gesamtkosten fuer Entwaesserung in Euro an (Beispiel 39.99): ");
+        std::cout << "Entwaesserungkosten in Euro = " << entwaesserungskosten << "\n";
         return;
     case 'l':
        std::cout << "ABFRAGE der Heizungs-Nebenkosten: " << endl;
@@ -805,8 +813,8 @@ bool compute_measures() {
     //straßenreinigung_person
     straßenreinigung_person = straßenreinigung / personen_gesamt;
 
-    //abwasserkosten_person
-    abwasserkosten_person = abwasserkosten / personen_gesamt;
+    //entwaesserungskosten_person
+    entwaesserungskosten_person = entwaesserungskosten / personen_gesamt;
 
     return true;
 
@@ -911,7 +919,7 @@ void hausabrechnung() {
     printf("Muellabfuhrkosten(pro Person): %.2f Euro\n", muellabfuhrkosten_person);
     printf("Wohngebaeudeversicherung: %.2f Euro/m2\n", wohngebaeudeversicherung_m2);
     printf("Strassenreinigung(pro Person): %.2f Euro\n", straßenreinigung_person);
-    printf("Abwasserkosten(pro Person): %.2f Euro\n", abwasserkosten_person);
+    printf("Entwaesserungkosten(pro Person): %.2f Euro\n", entwaesserungskosten_person);
 
     unsigned int colsize = 13; // mindestgroesse für die Spalten der Tabelle
     //unsigned int wlen = 0;
@@ -1033,10 +1041,10 @@ void hausabrechnung() {
     for (unsigned int w = 0; w < num_wohnung; w++) { std::cout << subline; }
     std::cout << "-------" << endl;
 
-    std::cout << " Abwasserkosten (Euro)     |"; // rowsize +1
+    std::cout << " Entwaesserung (Euro)      |"; // rowsize +1
     for (unsigned int w = 0; w < num_wohnung; w++) { 
-        printf("%*.2f  |", colsize - 1, personen_wohnung[w] * abwasserkosten_person); 
-        summen[w] += personen_wohnung[w] * abwasserkosten_person;
+        printf("%*.2f  |", colsize - 1, personen_wohnung[w] * entwaesserungskosten_person); 
+        summen[w] += personen_wohnung[w] * entwaesserungskosten_person;
     }
     std::cout << "  EUR" << endl;
 
@@ -1212,7 +1220,7 @@ int main(int argc, char* argv[]) {
                 //printf("Muellabfuhrkosten pro Person: %.2f Euro\n", muellabfuhrkosten_person);
                 printf("Wohngebaeudeversicherung (gesamt): %.2f Euro\n", wohngebaeudeversicherung);
                 printf("Strassenreinigung (gesamt): %.2f Euro\n", straßenreinigung);
-                printf("Abwasserkosten (gesamt): %.2f Euro\n", abwasserkosten);
+                printf("Entwaesserungkosten (gesamt): %.2f Euro\n", entwaesserungskosten);
                 std::cout << "\nAls naechstes muessen sie mindestens eine Wohnung anlegen, bitte geben Sie die gewuenschten Daten ein >>" << endl;
 
                 char nxt = 'n';
@@ -1245,7 +1253,7 @@ int main(int argc, char* argv[]) {
             //printf("Muellabfuhrkosten pro Person: %.2f Euro\n", muellabfuhrkosten_person);
             printf("Wohngebaeudeversicherung (gesamt): %.2f Euro\n", wohngebaeudeversicherung);
             printf("Strassenreinigung (gesamt): %.2f Euro\n", straßenreinigung);
-            printf("Abwasserkosten (gesamt): %.2f Euro\n", abwasserkosten);
+            printf("Entwaesserungkosten (gesamt): %.2f Euro\n", entwaesserungskosten);
             std::cout << "\nAls naechstes muessen sie mindestens eine Wohnung anlegen, bitte geben Sie die gewuenschten Daten ein >>" << endl;
             char nxt = 'n';
             do {
@@ -1281,7 +1289,7 @@ int main(int argc, char* argv[]) {
         //printf("Muellabfuhrkosten pro Person: %.2f Euro\n", muellabfuhrkosten_person);
         printf("Wohngebaeudeversicherung (gesamt): %.2f Euro\n", wohngebaeudeversicherung);
         printf("Strassenreinigung (gesamt): %.2f Euro\n", straßenreinigung);
-        printf("Abwasserkosten (gesamt): %.2f Euro\n", abwasserkosten);
+        printf("Entwaesserungkosten (gesamt): %.2f Euro\n", entwaesserungskosten);
         std::cout << "\nAls naechstes muessen sie mindestens eine Wohnung anlegen, bitte geben Sie die gewuenschten Daten ein >>" << endl;
         char nxt = 'n';
         do {
