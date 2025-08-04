@@ -1,3 +1,7 @@
+/*
+ * Hausabrechnung Minitool - alternative version
+ * Contains similar functionality for distributing building costs.
+ */
 #include<string>
 #include<vector>
 #include<sstream>

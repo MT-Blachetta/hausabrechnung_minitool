@@ -1,4 +1,8 @@
-
+/*
+ * Hausabrechnung Minitool
+ * Console application for calculating and distributing building
+ * operating costs across multiple apartments.
+ */
 #include<string>
 #include<vector>
 #include<sstream>
@@ -72,9 +76,8 @@ float gasfixkostenpreis;
 
 // Check string for valid format
 
-    
-
-
+// Verifies the header line of the save file to ensure all required
+// key/value pairs for the general building costs are present.
 bool checkStringA(const std::string& str) {
 
     std::regex pattern("sp=\\d+\\.\\d{1,4};wrk=\\d+\\.\\d{1,4};wrv=\\d+\\.\\d{1,4};gV=\\d+\\.\\d{1,4};gN=\\d+\\.\\d{1,4};gsv=\\d+\\.\\d{1,4};asv=\\d+\\.\\d{1,4};grk=\\d+\\.\\d{1,4};mrk=\\d+\\.\\d{1,4};wvk=\\d+\\.\\d{1,4};sgk=\\d+\\.\\d{1,4};ark=\\d+\\.\\d{1,4}");
@@ -83,6 +86,8 @@ bool checkStringA(const std::string& str) {
 
 }
 
+// Validates a single apartment data line from the save file
+// (name, size, persons, consumption values).
 bool checkStringB(const std::string& str) {
 
     std::regex pattern("name=\\w+;qm=\\d+(\\.\\d{1,4})?;pn=\\d+;wr=\\d+(\\.\\d{1,4})?;st=\\d+(\\.\\d{1,4})?;hz=\\d+(\\.\\d{1,4})?");
@@ -91,6 +96,8 @@ bool checkStringB(const std::string& str) {
 
 }
 
+// Persist all current data to a simple line-based save file
+// located at the supplied path.
 void save_data(const string& save_path) {
 
     FILE* sf;
@@ -111,6 +118,8 @@ void save_data(const string& save_path) {
 
 }
 
+// Reusable input helper that reads a floating point number from the
+// console, validates it and allows the user to confirm or re-enter.
 void input_value(float& number, const std::string& message) {
 
     bool check = true;
@@ -143,6 +152,7 @@ void input_value(float& number, const std::string& message) {
 
 }
 
+// Print the currently stored aggregated cost and consumption values.
 void print_general_values() {
 
     printf("\nWASSER\n");
@@ -174,6 +184,8 @@ void print_general_values() {
 
 }
 
+// Interactive prompt to capture building wide metrics (e.g. overall
+// consumption values and miscellaneous expenses) from the user.
 void kennzahl_abfrage() {
 
     //input_value(hausflaeche, "Geben sie die Flaeche des gesamten Hauses in Quadratmeter m2 an. (Beispiel: 30 oder 27.5): ");
@@ -235,6 +247,7 @@ void kennzahl_abfrage() {
 
 }
 
+// Edit the data of an existing apartment identified by its index.
 void wohnung_aendern(unsigned int i) {
 
     if (i >= num_wohnung) {
@@ -373,6 +386,8 @@ void wohnung_aendern(unsigned int i) {
 
 }
 
+// Ask the user for information about a new apartment and append it
+// to the in-memory data structures.
 void wohnungsdaten_abfrage() {
 
     string wohnungsname;
@@ -476,6 +491,8 @@ void wohnungsdaten_abfrage() {
 
 }
 
+// Search for the last occurrence of a separator within a string and
+// return the index of the character following it.
 int search_backwards(string target, char seperator) {
 
     for (unsigned int i = target.length() - 1; i >= 0; i--) {
@@ -489,6 +506,8 @@ int search_backwards(string target, char seperator) {
 
 }
 
+// Search for the first occurrence of a separator within a string and
+// return the index of the character following it.
 int search_forward(string target, char seperator) {
 
 
@@ -503,6 +522,7 @@ int search_forward(string target, char seperator) {
 
 }
 
+// Split a string by a delimiter into a list of tokens.
 vector<string> splitString(string str, char delimiter)
 {
 
@@ -519,6 +539,8 @@ vector<string> splitString(string str, char delimiter)
     return stringList;
 }
 
+// Parse the first line of the save file and restore the general cost
+// values into the corresponding global variables.
 void load_main_data(string& dataline) {
 
     vector<string> kennzahlen = splitString(dataline, ';');
@@ -611,6 +633,8 @@ void load_main_data(string& dataline) {
 
 }
 
+// Parse one line of apartment data from the save file and append it
+// to the lists storing apartment information.
 void load_home_data(string& dataline) {
 
     //add an apartment
@@ -658,6 +682,8 @@ void load_home_data(string& dataline) {
 
 }
 
+// Allow the user to adjust a single previously entered metric without
+// re-running the full data entry routine.
 void change_single_value() {
 
     char val_ID;
@@ -762,6 +788,9 @@ void change_single_value() {
 
 }
 
+// Calculate derived prices and shares (e.g. cost per m² or per person)
+// needed for the final billing output. Returns false if input data is
+// incomplete or invalid.
 bool compute_measures() {
 
     if (num_wohnung <= 0) {
@@ -840,6 +869,8 @@ bool compute_measures() {
 
 }
 
+// Print a tabular overview of all currently stored apartments and
+// their main attributes.
 void wohnungen_anzeigen() {
 
     unsigned int ID = 0;
@@ -927,6 +958,8 @@ void wohnungen_anzeigen() {
 
 }
 
+// Produce the final cost allocation for each apartment and display
+// the results on the console.
 void hausabrechnung() {
 
     //Maßstab
@@ -1083,6 +1116,8 @@ void hausabrechnung() {
 
 }
 
+// Main menu loop that lets the user trigger all available actions of
+// the application.
 bool main_dialog() {
 
     char option;
@@ -1179,6 +1214,8 @@ bool main_dialog() {
 
 
 
+// Entry point: load existing data if available and then repeatedly
+// show the main menu until the user exits.
 int main(int argc, char* argv[]) {
 
     //num_wohnung = 0;
